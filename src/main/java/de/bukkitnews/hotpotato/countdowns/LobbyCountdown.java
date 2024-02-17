@@ -4,6 +4,7 @@ import de.bukkitnews.hotpotato.game.GameState;
 import de.bukkitnews.hotpotato.game.GameStateManager;
 import de.bukkitnews.hotpotato.maps.Map;
 import de.bukkitnews.hotpotato.maps.Voting;
+import de.bukkitnews.hotpotato.player.CustomPlayerCache;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
 
@@ -38,7 +39,12 @@ public class LobbyCountdown extends Countdown {
             public void run() {
                 switch (seconds){
                     case 60: case 30: case 15: case 10: case 5: case 4: case 3: case 2:
-                        Bukkit.broadcastMessage(PotatoConstants.PREFIX+" §7Das Spiel startet in §e"+seconds+" Sekunden§7.");
+                        Bukkit.getOnlinePlayers().forEach(playerEach -> {
+                            CustomPlayerCache customPlayerEachCache = gameStateManager.getHotPotato().getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
+                            String message = gameStateManager.getHotPotato().getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_lobby_broadcast");
+
+                            playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, seconds));
+                        });
 
 
                         /*
@@ -54,13 +60,23 @@ public class LobbyCountdown extends Countdown {
                                 Collections.shuffle(mapList);
                                 winnerMap = mapList.get(0);
                             }
-                            Bukkit.broadcastMessage(PotatoConstants.PREFIX+" §7Sieger des Map-Votings: §a"+winnerMap.getName());
+                            Bukkit.getOnlinePlayers().forEach(playerEach -> {
+                                CustomPlayerCache customPlayerEachCache = gameStateManager.getHotPotato().getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
+                                String message = gameStateManager.getHotPotato().getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "voting_winner");
+
+                                playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, winnerMap.getName()));
+                            });
                         }
 
                         break;
 
                     case 1:
-                        Bukkit.broadcastMessage(PotatoConstants.PREFIX+" §7Das Spiel startet in §e"+seconds+" Sekunde§7.");
+                        Bukkit.getOnlinePlayers().forEach(playerEach -> {
+                            CustomPlayerCache customPlayerEachCache = gameStateManager.getHotPotato().getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
+                            String message = gameStateManager.getHotPotato().getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_lobby_broadcast1");
+
+                            playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, seconds));
+                        });
                         break;
 
                     case 0:
@@ -92,8 +108,13 @@ public class LobbyCountdown extends Countdown {
         idleID = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameStateManager.getHotPotato(), new Runnable() {
             @Override
             public void run() {
-                Bukkit.broadcastMessage(PotatoConstants.PREFIX+" §7Es fehlen noch §e"+
-                        (PotatoConstants.MIN_PLAYERS-PotatoConstants.playerList.size())+" Spieler §7zum Spielstart.");
+                int amount = PotatoConstants.MIN_PLAYERS-PotatoConstants.playerList.size();
+                Bukkit.getOnlinePlayers().forEach(playerEach -> {
+                    CustomPlayerCache customPlayerEachCache = gameStateManager.getHotPotato().getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
+                    String message = gameStateManager.getHotPotato().getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_lobby_players");
+
+                    playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, amount));
+                });
             }
         },0L, 20L * PotatoConstants.IDLE_TIME);
     }

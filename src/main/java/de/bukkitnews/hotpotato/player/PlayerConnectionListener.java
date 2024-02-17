@@ -90,6 +90,7 @@ public class PlayerConnectionListener implements Listener {
     @EventHandler
     public void handleQuit(PlayerQuitEvent event){
         Player player  = event.getPlayer();
+        event.setQuitMessage(null);
 
         if(hotPotato.getCustomPlayerManager().getPlayerCacheMap().containsKey(player))
             hotPotato.getCustomPlayerManager().getPlayerCacheMap().remove(player);
@@ -98,8 +99,14 @@ public class PlayerConnectionListener implements Listener {
             PotatoConstants.playerList.remove(player);
 
         if(hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
-            event.setQuitMessage(PotatoConstants.PREFIX+" §a"+player.getName()+" §7hat das Spiel verlassen." +
-                    " §7["+PotatoConstants.playerList.size()+"/"+PotatoConstants.MAX_PLAYERS+"]");
+
+            Bukkit.getOnlinePlayers().forEach(playerEach -> {
+                CustomPlayerCache customPlayerEachCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
+                String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "quit_message");
+
+                player.sendMessage(String.format(PotatoConstants.PREFIX+ message +
+                        " §7["+PotatoConstants.playerList.size()+"/"+PotatoConstants.MAX_PLAYERS+"]", player.getName()));
+            });
 
             /*
             CHECKING IF THERE ARE STILL ENOUGH PLAYERS TO FORCE GAME START

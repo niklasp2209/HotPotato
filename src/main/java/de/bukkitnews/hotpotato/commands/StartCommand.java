@@ -26,6 +26,7 @@ public class StartCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if(commandSender instanceof Player){
             Player player = (Player) commandSender;
+            CustomPlayerCache customPlayerCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
 
             if(player.hasPermission("hotpotato.start")){
                 if(args.length == 0){
@@ -33,14 +34,21 @@ public class StartCommand implements CommandExecutor {
                         LobbyState lobbyState = (LobbyState) hotPotato.getGameStateManager().getCurrentGameState();
                         if(lobbyState.getLobbyCountdown().isRunning() && lobbyState.getLobbyCountdown().getSeconds() > PotatoConstants.FORCE_START_TIME){
                             lobbyState.getLobbyCountdown().setSeconds(PotatoConstants.FORCE_START_TIME);
-                            player.sendMessage(PotatoConstants.PREFIX+" §aDu hast das Spiel gestartet.");
+                            String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_start_started");
+                            player.sendMessage(PotatoConstants.PREFIX+message);
                             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
-                        }else
-                            player.sendMessage(PotatoConstants.PREFIX+" §cDas Spiel ist bereits gestartet.");
-                    }else
-                        player.sendMessage(PotatoConstants.PREFIX+" §cDas Spiel ist bereits gestartet.");
-                }else
-                    player.sendMessage(PotatoConstants.PREFIX+" §cBenutze /start");
+                        }else{
+                            String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_start_already_started");
+                            player.sendMessage(PotatoConstants.PREFIX+message);
+                        }
+                    }else{
+                        String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_start_already_started");
+                        player.sendMessage(PotatoConstants.PREFIX+message);
+                    }
+                }else{
+                    String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_start_usage");
+                    player.sendMessage(PotatoConstants.PREFIX+message);
+                }
             }else
                 player.sendMessage(PotatoConstants.NO_PERMISSION);
         }

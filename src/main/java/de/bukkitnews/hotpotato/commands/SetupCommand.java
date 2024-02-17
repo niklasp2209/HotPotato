@@ -2,6 +2,7 @@ package de.bukkitnews.hotpotato.commands;
 
 import de.bukkitnews.hotpotato.HotPotato;
 import de.bukkitnews.hotpotato.maps.Map;
+import de.bukkitnews.hotpotato.player.CustomPlayerCache;
 import de.bukkitnews.hotpotato.utils.ConfigurationUtil;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Sound;
@@ -27,6 +28,7 @@ public class SetupCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if(commandSender instanceof Player){
             Player player = (Player) commandSender;
+            CustomPlayerCache customPlayerCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
             if(player.hasPermission("hotpotato.setup")) {
                 if(args.length == 0)
                     sendIntroductions(player);
@@ -36,7 +38,8 @@ public class SetupCommand implements CommandExecutor {
                         SET LOBBY-SPAWN SECTION
                          */
                         new ConfigurationUtil(hotPotato, player.getLocation(), "Lobby").saveLocation();
-                        player.sendMessage(PotatoConstants.PREFIX+" §cDer Lobby-Spawn wurde gesetzt.");
+                        String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_setup_spawn");
+                        player.sendMessage(PotatoConstants.PREFIX+message);
 
                     }else if(args[0].equalsIgnoreCase("create") && args.length == 3){
                         /*
@@ -45,10 +48,14 @@ public class SetupCommand implements CommandExecutor {
                         Map map = new Map(hotPotato, args[1]);
                         if(!map.exists()){
                             map.create(args[2]);
-                            player.sendMessage(PotatoConstants.PREFIX+" §7Die Map §a"+map.getName()+ " §7wurde erstellt.");
+                            String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_setup_map_created");
+                            player.sendMessage(PotatoConstants.PREFIX+message);
+                            player.sendMessage(String.format(PotatoConstants.PREFIX+message, map.getName()));
                             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP ,1F, 1F);
-                        }else
-                            player.sendMessage(PotatoConstants.PREFIX+" §cDiese Map exisitert bereits.");
+                        }else{
+                            String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_map_exists");
+                            player.sendMessage(PotatoConstants.PREFIX+message);
+                        }
                     }else if(args[0].equalsIgnoreCase("set") && args.length == 3){
                         /*
                         CHECKING IF PLAYER IS SETTING LOCATIONID OR SPECTATOR LOCATION
@@ -62,23 +69,31 @@ public class SetupCommand implements CommandExecutor {
                                     SETTING LOCATIONID FOR PARTICULAR MAP
                                      */
                                     map.setSpawnLocation(locationID, player.getLocation());
-                                    player.sendMessage(PotatoConstants.PREFIX+" §7Du hast LocationID §a"+locationID+" §7für §e"+map.getName()+" §7gesetzt.");
+                                    String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_setup_location");
+                                    player.sendMessage(PotatoConstants.PREFIX+message);
+                                    player.sendMessage(String.format(PotatoConstants.PREFIX+message, locationID, map.getName()));
                                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
-                                }else
-                                    player.sendMessage(PotatoConstants.PREFIX+" §cBenutze eine Zahl zwischen 1 und"+PotatoConstants.MAX_PLAYERS+".");
+                                }else{
+                                    String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_setup_location_usage");
+                                    player.sendMessage(PotatoConstants.PREFIX+message);
+                                }
                             }catch (NumberFormatException exception){
                                 /*
                                 SETTING SPECTATOR LOCATION FOR PARTICULAR MAP
                                  */
                                 if(args[2].equalsIgnoreCase("spectator")){
                                     map.setSpectatorLocation(player.getLocation());
-                                    player.sendMessage(PotatoConstants.PREFIX+" §7Du hast die §aSpectator-Location §7für §e"+map.getName()+" §7gesetzt.");
+                                    String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_setup_spectator");
+                                    player.sendMessage(PotatoConstants.PREFIX+message);
+                                    player.sendMessage(String.format(PotatoConstants.PREFIX+message, map.getName()));
                                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
                                 }else
                                     sendIntroductions(player);
                             }
-                        }else
-                            player.sendMessage(PotatoConstants.PREFIX+ " §cDiese Map konnte nicht gefunden werden.");
+                        }else{
+                            String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_setup_map_no");
+                            player.sendMessage(PotatoConstants.PREFIX+message);
+                        }
                     }else
                         sendIntroductions(player);
                 }
