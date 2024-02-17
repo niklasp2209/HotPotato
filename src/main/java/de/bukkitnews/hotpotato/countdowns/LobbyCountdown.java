@@ -73,6 +73,14 @@ public class LobbyCountdown extends Countdown {
         }
     }
 
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
+
+    public int getSeconds() {
+        return seconds;
+    }
+
     public boolean isRunning() {
         return isRunning;
     }
