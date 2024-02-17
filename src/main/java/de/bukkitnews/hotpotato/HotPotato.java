@@ -8,6 +8,7 @@ import de.bukkitnews.hotpotato.game.GameStateManager;
 import de.bukkitnews.hotpotato.language.LanguageModule;
 import de.bukkitnews.hotpotato.maps.Map;
 import de.bukkitnews.hotpotato.maps.Voting;
+import de.bukkitnews.hotpotato.maps.VotingListener;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -47,6 +48,7 @@ public class HotPotato extends JavaPlugin {
         initVoting();
 
         this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new VotingListener(this), this);
     }
 
     private void registerCommands(){

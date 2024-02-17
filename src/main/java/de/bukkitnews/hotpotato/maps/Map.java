@@ -21,6 +21,9 @@ public class Map {
     public Map(HotPotato hotPotato, String name){
         this.hotPotato = hotPotato;
         this.name = name.toUpperCase();
+
+        if(exists())
+            builder = hotPotato.getConfig().getString("Maps."+name+".Builder");
     }
 
     public void create(String builder){
@@ -57,6 +60,14 @@ public class Map {
             if(!(configurationSection.contains(Integer.toString(i))))return false;
         }
         return true;
+    }
+
+    public void addVote(){
+        votes++;
+    }
+
+    public void removeVote(){
+        votes--;
     }
 
     public boolean exists(){

@@ -3,14 +3,18 @@ package de.bukkitnews.hotpotato.player;
 import de.bukkitnews.hotpotato.HotPotato;
 import de.bukkitnews.hotpotato.countdowns.LobbyCountdown;
 import de.bukkitnews.hotpotato.game.LobbyState;
+import de.bukkitnews.hotpotato.maps.Voting;
 import de.bukkitnews.hotpotato.utils.ConfigurationUtil;
+import de.bukkitnews.hotpotato.utils.ItemBuilder;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -18,9 +22,11 @@ import java.util.concurrent.TimeUnit;
 public class PlayerConnectionListener implements Listener {
 
     private HotPotato hotPotato;
+    private ItemStack voteItem;
 
     public PlayerConnectionListener(HotPotato hotPotato){
         this.hotPotato = hotPotato;
+        voteItem = new ItemBuilder(Material.PAPER).setDisplayname(PotatoConstants.INVENTORY_VOTING).build();
     }
 
     @EventHandler
@@ -52,6 +58,8 @@ public class PlayerConnectionListener implements Listener {
             LOGIC FOR PLAYER JOINING SERVER WHEN GAME ISNT STARTET (LOBBYSTATE)
              */
             PotatoConstants.playerList.add(player);
+            player.getInventory().clear();
+            player.getInventory().setItem(4, voteItem);
             /*
             GETTING PLAYERS LANGUAGE
              */
@@ -92,9 +100,6 @@ public class PlayerConnectionListener implements Listener {
         Player player  = event.getPlayer();
         event.setQuitMessage(null);
 
-        if(hotPotato.getCustomPlayerManager().getPlayerCacheMap().containsKey(player))
-            hotPotato.getCustomPlayerManager().getPlayerCacheMap().remove(player);
-
         if(PotatoConstants.playerList.contains(player))
             PotatoConstants.playerList.remove(player);
 
@@ -119,6 +124,15 @@ public class PlayerConnectionListener implements Listener {
                     lobbyCountdown.startIdle();
                 }
             }
+            //REMOVE PLAYER VOTE BECAUSE HE LEFT
+            Voting voting = hotPotato.getVoting();
+            if(voting.getPlayerVotes().containsKey(player.getName())){
+                voting.getVotingMaps()[voting.getPlayerVotes().get(player.getName())].removeVote();
+                voting.initInventory();
+            }
         }
+
+        if(hotPotato.getCustomPlayerManager().getPlayerCacheMap().containsKey(player))
+            hotPotato.getCustomPlayerManager().getPlayerCacheMap().remove(player);
     }
 }

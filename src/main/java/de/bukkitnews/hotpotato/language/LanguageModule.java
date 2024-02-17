@@ -22,6 +22,7 @@ public class LanguageModule {
         loadMessages(fileConfiguration);
     }
 
+    //LOADING MESSAGE FROM LOCAL DATA STORAGE
     private void loadMessages(FileConfiguration fileConfiguration){
         File languageFile = new File(hotPotato.getDataFolder(), "language.yml");
         if (!languageFile.exists()) {
@@ -50,6 +51,9 @@ public class LanguageModule {
         }
     }
 
+    /*
+    ADDING ALL STRINGS FOR LANGUAGES
+     */
     public void createDefaultConfig() {
         File configFile = new File(hotPotato.getDataFolder(), "language.yml");
         if (!configFile.exists()) {
@@ -73,6 +77,8 @@ public class LanguageModule {
             deMessages.put("voting_winner", "§7Sieger des Map-Votings: §a%s");
             deMessages.put("countdown_lobby_broadcast1", "§7Das Spiel startet in §e%d Sekunde§7.");
             deMessages.put("countdown_lobby_players", " §7Es fehlen noch §e%d Spieler §7zum Spielstart.");
+            deMessages.put("voting_already", "§cDu hast bereits gevotet.");
+            deMessages.put("voting_voted", "§aDu hast für die Map §6%s §aabgestimmt.");
             Map<String, String> enMessages = new HashMap<>();
             enMessages.put("join_message", "§e%s §7joined the game.");
             enMessages.put("quit_message", "§e%s §7left the game.");
@@ -92,6 +98,8 @@ public class LanguageModule {
             enMessages.put("voting_winner", "§a%s won the Map Vote.");
             enMessages.put("countdown_lobby_broadcast1", "§7The Game Starts in §e%d seconds§7.");
             enMessages.put("countdown_lobby_players", "§7There are still §e%d missing players §7to start the game.");
+            enMessages.put("voting_already", "§cYou have already voted.");
+            enMessages.put("voting_voted", "§aYou voted for §6%s§a.");
             defaultConfig.set("de", deMessages);
             defaultConfig.set("en", enMessages);
             try {
