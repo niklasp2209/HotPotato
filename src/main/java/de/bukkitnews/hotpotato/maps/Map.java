@@ -16,6 +16,7 @@ public class Map {
     private String builder;
     private Location[] spawnLocations = new Location[PotatoConstants.MAX_PLAYERS];
     private Location spectatorLocation;
+    private int votes;
 
     public Map(HotPotato hotPotato, String name){
         this.hotPotato = hotPotato;
@@ -76,5 +77,9 @@ public class Map {
 
     public Location[] getSpawnLocations() {
         return spawnLocations;
+    }
+
+    public int getVotes() {
+        return votes;
     }
 }

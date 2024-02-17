@@ -2,6 +2,7 @@ package de.bukkitnews.hotpotato.commands;
 
 import de.bukkitnews.hotpotato.HotPotato;
 import de.bukkitnews.hotpotato.game.LobbyState;
+import de.bukkitnews.hotpotato.player.CustomPlayerCache;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -25,6 +26,7 @@ public class StartCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if(commandSender instanceof Player){
             Player player = (Player) commandSender;
+
             if(player.hasPermission("hotpotato.start")){
                 if(args.length == 0){
                     if(hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){

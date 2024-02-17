@@ -4,8 +4,10 @@ import de.bukkitnews.hotpotato.commands.SetupCommand;
 import de.bukkitnews.hotpotato.commands.StartCommand;
 import de.bukkitnews.hotpotato.game.GameState;
 import de.bukkitnews.hotpotato.game.GameStateManager;
+import de.bukkitnews.hotpotato.language.LanguageModule;
 import de.bukkitnews.hotpotato.maps.Map;
 import de.bukkitnews.hotpotato.maps.Voting;
+import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import de.bukkitnews.hotpotato.player.CustomPlayerManager;
@@ -19,11 +21,15 @@ public class HotPotato extends JavaPlugin {
     private GameStateManager gameStateManager;
     private CustomPlayerManager customPlayerManager;
     private Voting voting;
+    private List<Map> mapList;
+    private LanguageModule languageModule;
 
     @Override
     public void onEnable(){
         this.gameStateManager = new GameStateManager(this);
         this.customPlayerManager = new CustomPlayerManager();
+        this.languageModule = new LanguageModule(this, getConfig());
+        languageModule.createDefaultConfig();
 
         gameStateManager.setGameState(GameState.LOBBY_STATE);
 
@@ -54,7 +60,7 @@ public class HotPotato extends JavaPlugin {
         /*
         CHECKING ALL CREATED MAP IF THEY FINISHED SETUP
          */
-        List<Map> mapList = new ArrayList<>();
+        mapList = new ArrayList<>();
         for(String current : getConfig().getConfigurationSection("Maps").getKeys(false)){
             Map map = new Map(this, current);
             if(map.playable())
@@ -62,7 +68,12 @@ public class HotPotato extends JavaPlugin {
             else
                 Bukkit.getConsoleSender().sendMessage("§cMap "+map.getName()+ " §cist noch nicht fertig eingerichtet!");
         }
-        voting = new Voting(this, mapList);
+        if(mapList.size() >= PotatoConstants.VOTING_MAP_AMOUNT)
+            voting = new Voting(this, mapList);
+        else {
+            Bukkit.getConsoleSender().sendMessage("§cEs müssen mindestens " + PotatoConstants.VOTING_MAP_AMOUNT + " §cMaps eingerichtet sein.");
+            voting = null;
+        }
     }
 
     public GameStateManager getGameStateManager() {
@@ -75,5 +86,13 @@ public class HotPotato extends JavaPlugin {
 
     public Voting getVoting() {
         return voting;
+    }
+
+    public List<Map> getMapList() {
+        return mapList;
+    }
+
+    public LanguageModule getLanguageModule() {
+        return languageModule;
     }
 }

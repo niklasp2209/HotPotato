@@ -26,8 +26,12 @@ public class PlayerConnectionListener implements Listener {
     @EventHandler
     public void handleJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
+        event.setJoinMessage(null);
 
-        hotPotato.getCustomPlayerManager().getPlayerCacheMap().put(player, new CustomPlayerCache());
+        CustomPlayerCache customPlayerCache = new CustomPlayerCache(false, 0, 0, "de");
+        hotPotato.getCustomPlayerManager().getPlayerCacheMap().put(player, customPlayerCache);
+
+        System.out.println(player.getLocale());
 
         /*
         THREADED FUNCTION TO PULL STATS FROM SQL
@@ -48,8 +52,16 @@ public class PlayerConnectionListener implements Listener {
             LOGIC FOR PLAYER JOINING SERVER WHEN GAME ISNT STARTET (LOBBYSTATE)
              */
             PotatoConstants.playerList.add(player);
-            event.setJoinMessage(PotatoConstants.PREFIX+" §a"+player.getName()+" §7ist dem Spiel beigetreten." +
-                    " §7["+PotatoConstants.playerList.size()+"/"+PotatoConstants.MAX_PLAYERS+"]");
+            /*
+            GETTING PLAYERS LANGUAGE
+             */
+            Bukkit.getOnlinePlayers().forEach(playerEach -> {
+                CustomPlayerCache customPlayerEachCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
+                String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "join_message");
+
+                player.sendMessage(String.format(PotatoConstants.PREFIX+ message +
+                        " §7["+PotatoConstants.playerList.size()+"/"+PotatoConstants.MAX_PLAYERS+"]", player.getName()));
+            });
 
             /*
             CHECKING IF LOBBY-SPAWN WAS SETUP
