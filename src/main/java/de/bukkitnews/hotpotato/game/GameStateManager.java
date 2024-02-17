@@ -2,6 +2,9 @@ package de.bukkitnews.hotpotato.game;
 
 import de.bukkitnews.hotpotato.HotPotato;
 
+/*
+MANAGING MANY GAMESTATES TO HANDLE THE WHOLE GAME
+ */
 public class GameStateManager {
 
     private HotPotato hotPotato;
@@ -18,6 +21,9 @@ public class GameStateManager {
     }
 
     public void setGameState(int gameStateID){
+        /*
+        REPLACE CURRENT GAMESTATE
+         */
         if(currentGameState != null)
             currentGameState.stop();
         currentGameState = gameStates[gameStateID];

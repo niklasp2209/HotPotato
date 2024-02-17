@@ -10,6 +10,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/*
+THIS CLASS IS MANAGING THE SETUPCOMMAND INCLUDING MAP CREATING AND MAP SETTINGS
+ */
+
 public class SetupCommand implements CommandExecutor {
 
     private HotPotato hotPotato;
@@ -28,9 +32,16 @@ public class SetupCommand implements CommandExecutor {
                     sendIntroductions(player);
                 else{
                     if(args[0].equalsIgnoreCase("lobby") && args.length == 1){
+                        /*
+                        SET LOBBY-SPAWN SECTION
+                         */
                         new ConfigurationUtil(hotPotato, player.getLocation(), "Lobby").saveLocation();
                         player.sendMessage(PotatoConstants.PREFIX+" §cDer Lobby-Spawn wurde gesetzt.");
+
                     }else if(args[0].equalsIgnoreCase("create") && args.length == 3){
+                        /*
+                        CREATE MAP SECTION
+                         */
                         Map map = new Map(hotPotato, args[1]);
                         if(!map.exists()){
                             map.create(args[2]);
@@ -39,17 +50,26 @@ public class SetupCommand implements CommandExecutor {
                         }else
                             player.sendMessage(PotatoConstants.PREFIX+" §cDiese Map exisitert bereits.");
                     }else if(args[0].equalsIgnoreCase("set") && args.length == 3){
+                        /*
+                        CHECKING IF PLAYER IS SETTING LOCATIONID OR SPECTATOR LOCATION
+                         */
                         Map map = new Map(hotPotato, args[1]);
                         if(map.exists()){
                             try{
                                 int locationID = Integer.parseInt(args[2]);
                                 if(locationID > 0 && locationID <= PotatoConstants.MAX_PLAYERS){
+                                    /*
+                                    SETTING LOCATIONID FOR PARTICULAR MAP
+                                     */
                                     map.setSpawnLocation(locationID, player.getLocation());
                                     player.sendMessage(PotatoConstants.PREFIX+" §7Du hast LocationID §a"+locationID+" §7für §e"+map.getName()+" §7gesetzt.");
                                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
                                 }else
                                     player.sendMessage(PotatoConstants.PREFIX+" §cBenutze eine Zahl zwischen 1 und"+PotatoConstants.MAX_PLAYERS+".");
                             }catch (NumberFormatException exception){
+                                /*
+                                SETTING SPECTATOR LOCATION FOR PARTICULAR MAP
+                                 */
                                 if(args[2].equalsIgnoreCase("spectator")){
                                     map.setSpectatorLocation(player.getLocation());
                                     player.sendMessage(PotatoConstants.PREFIX+" §7Du hast die §aSpectator-Location §7für §e"+map.getName()+" §7gesetzt.");

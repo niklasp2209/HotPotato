@@ -43,11 +43,17 @@ public class HotPotato extends JavaPlugin {
     }
 
     private void registerCommands(){
+        /*
+        REGISTER ALL UPCOMING COMMANDS
+         */
         this.getCommand("setup").setExecutor(new SetupCommand(this));
         this.getCommand("start").setExecutor(new StartCommand(this));
     }
 
     private void initVoting(){
+        /*
+        CHECKING ALL CREATED MAP IF THEY FINISHED SETUP
+         */
         List<Map> mapList = new ArrayList<>();
         for(String current : getConfig().getConfigurationSection("Maps").getKeys(false)){
             Map map = new Map(this, current);

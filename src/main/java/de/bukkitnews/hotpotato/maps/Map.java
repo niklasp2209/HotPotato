@@ -6,6 +6,9 @@ import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
+/*
+CREATING MAP OBJECT FOR MAP VOTING AND MAP PLAYING
+ */
 public class Map {
 
     private HotPotato hotPotato;
@@ -26,16 +29,26 @@ public class Map {
     }
 
     public void setSpawnLocation(int locationID, Location location){
+        /*
+        SETTING PLAYER SPAWN LOCATIONS FOR SPECIFIC MAP
+         */
         spawnLocations[locationID-1] = location;
         new ConfigurationUtil(hotPotato, location, "Maps."+name+"."+locationID).saveLocation();
     }
 
     public void setSpectatorLocation(Location location){
+        /*
+        SETTING PLAYER SPECTATOR LOCATION FOR SPECIFIC MAP
+         */
         spectatorLocation = location;
         new ConfigurationUtil(hotPotato, location, "Maps."+name+".Spectator").saveLocation();
     }
 
     public boolean playable(){
+        /*
+        METHOD SCANNING IF MAP IS READY TO PLAY. FIRSTLY SCANNING IF SPECTATOR AND BUILDER IS VALID
+        BECAUSE CHECKING THE SPAWNLOCATIONS FIRST WILL BE BAD FOR SERVER RUNTIME
+         */
         ConfigurationSection configurationSection = hotPotato.getConfig().getConfigurationSection("Maps."+name);
         if(!configurationSection.contains("Spectator"))return false;
         if(!configurationSection.contains("Builder"))return false;

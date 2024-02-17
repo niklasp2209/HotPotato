@@ -12,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.sql.SQLException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +29,9 @@ public class PlayerConnectionListener implements Listener {
 
         hotPotato.getCustomPlayerManager().getPlayerCacheMap().put(player, new CustomPlayerCache());
 
+        /*
+        THREADED FUNCTION TO PULL STATS FROM SQL
+         */
         Executors.newCachedThreadPool().execute(() -> {
             try{
                 TimeUnit.MILLISECONDS.sleep(500L);
@@ -42,16 +44,25 @@ public class PlayerConnectionListener implements Listener {
         });
 
         if(hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
+            /*
+            LOGIC FOR PLAYER JOINING SERVER WHEN GAME ISNT STARTET (LOBBYSTATE)
+             */
             PotatoConstants.playerList.add(player);
             event.setJoinMessage(PotatoConstants.PREFIX+" §a"+player.getName()+" §7ist dem Spiel beigetreten." +
                     " §7["+PotatoConstants.playerList.size()+"/"+PotatoConstants.MAX_PLAYERS+"]");
 
+            /*
+            CHECKING IF LOBBY-SPAWN WAS SETUP
+             */
             ConfigurationUtil configurationUtil = new ConfigurationUtil(hotPotato, "Lobby");
             if(configurationUtil.loadLocation() != null)
                 player.teleport(configurationUtil.loadLocation());
             else
                 Bukkit.getConsoleSender().sendMessage(PotatoConstants.PREFIX+" §4Der Lobby Spawn wurde nicht gesetzt.");
 
+            /*
+            CHECKING IF THERE ARE ENOUGH PLAYERS TO START LOBBYCOUNTDOWN
+             */
             LobbyState lobbyState = (LobbyState) hotPotato.getGameStateManager().getCurrentGameState();
             LobbyCountdown lobbyCountdown = lobbyState.getLobbyCountdown();
             if(PotatoConstants.playerList.size() >= PotatoConstants.MIN_PLAYERS){
@@ -78,6 +89,9 @@ public class PlayerConnectionListener implements Listener {
             event.setQuitMessage(PotatoConstants.PREFIX+" §a"+player.getName()+" §7hat das Spiel verlassen." +
                     " §7["+PotatoConstants.playerList.size()+"/"+PotatoConstants.MAX_PLAYERS+"]");
 
+            /*
+            CHECKING IF THERE ARE STILL ENOUGH PLAYERS TO FORCE GAME START
+             */
             LobbyState lobbyState = (LobbyState) hotPotato.getGameStateManager().getCurrentGameState();
             LobbyCountdown lobbyCountdown = lobbyState.getLobbyCountdown();
             if(PotatoConstants.playerList.size() < PotatoConstants.MIN_PLAYERS){

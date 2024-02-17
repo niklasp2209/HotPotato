@@ -6,6 +6,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
+/*
+CONFIGURATION UTIL CLASS TO STORE AND PULL DATA FROM LOCAL STORAGE
+ */
 public class ConfigurationUtil {
 
     private HotPotato hotPotato;
@@ -22,6 +25,9 @@ public class ConfigurationUtil {
         this(hotPotato, null, root);
     }
 
+    /*
+    STORE LOCATION IN LOCAL CONFIGURATION STORAGE
+     */
     public void saveLocation(){
         FileConfiguration fileConfiguration = hotPotato.getConfig();
         fileConfiguration.set(root+".World", location.getWorld().getName());
@@ -33,6 +39,9 @@ public class ConfigurationUtil {
         hotPotato.saveConfig();
     }
 
+    /*
+    PULL DATA FROM LOCAL CONFIGURATION STORAGE
+     */
     public Location loadLocation(){
         FileConfiguration fileConfiguration = hotPotato.getConfig();
         if(fileConfiguration.contains(root)) {

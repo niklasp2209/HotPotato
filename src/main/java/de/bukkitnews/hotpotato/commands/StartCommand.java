@@ -9,6 +9,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/*
+THIS CLASS IS HANDLING THE STARTCOMMAND TO FORCE START
+THE GAME IN LOBBYSTATE
+ */
 public class StartCommand implements CommandExecutor {
 
     private HotPotato hotPotato;
@@ -27,12 +31,12 @@ public class StartCommand implements CommandExecutor {
                         LobbyState lobbyState = (LobbyState) hotPotato.getGameStateManager().getCurrentGameState();
                         if(lobbyState.getLobbyCountdown().isRunning() && lobbyState.getLobbyCountdown().getSeconds() > PotatoConstants.FORCE_START_TIME){
                             lobbyState.getLobbyCountdown().setSeconds(PotatoConstants.FORCE_START_TIME);
-                            player.sendMessage(PotatoConstants.PREFIX+"§aDu hast das Spiel gestartet.");
+                            player.sendMessage(PotatoConstants.PREFIX+" §aDu hast das Spiel gestartet.");
                             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
                         }else
-                            player.sendMessage(PotatoConstants.PREFIX+"§cDas Spiel ist bereits gestartet.");
+                            player.sendMessage(PotatoConstants.PREFIX+" §cDas Spiel ist bereits gestartet.");
                     }else
-                        player.sendMessage(PotatoConstants.PREFIX+"§cDas Spiel ist bereits gestartet.");
+                        player.sendMessage(PotatoConstants.PREFIX+" §cDas Spiel ist bereits gestartet.");
                 }else
                     player.sendMessage(PotatoConstants.PREFIX+" §cBenutze /start");
             }else

@@ -5,6 +5,9 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+EVERY GLOBAL CONSTANT OF HOTPOTATO GAME
+ */
 public class PotatoConstants {
 
     public static String PREFIX = "§7[§eHotPotato§7]", NO_PERMISSION = PREFIX+"§cDu hast leider nicht genügend Rechte.";

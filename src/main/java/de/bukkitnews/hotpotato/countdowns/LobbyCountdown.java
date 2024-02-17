@@ -1,11 +1,13 @@
 package de.bukkitnews.hotpotato.countdowns;
 
-import de.bukkitnews.hotpotato.HotPotato;
 import de.bukkitnews.hotpotato.game.GameState;
 import de.bukkitnews.hotpotato.game.GameStateManager;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
 
+/*
+CLASS HANDLING THE LOBBYCOUNTDOWN BEFORE STARTING THE GAME INCLUDING BUKKIT-RUNNABLE
+ */
 public class LobbyCountdown extends Countdown {
 
     private int idleID;
@@ -21,6 +23,9 @@ public class LobbyCountdown extends Countdown {
 
     @Override
     public void start() {
+        /*
+        STARTING LOBBY COUNTDOWN TO START THE GAME; ENOUGH PLAYERS ARE ONLINE
+         */
         isRunning = true;
         taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameStateManager.getHotPotato(), new Runnable() {
             @Override
@@ -56,6 +61,9 @@ public class LobbyCountdown extends Countdown {
     }
 
     public void startIdle(){
+        /*
+        STARTING IDLE IF NOT ENOUGH PLAYERS ONLINE TO START
+         */
         isIdling = true;
         idleID = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameStateManager.getHotPotato(), new Runnable() {
             @Override
