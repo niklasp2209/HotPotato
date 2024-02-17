@@ -51,22 +51,26 @@ public class LanguageModule {
 
     public void createDefaultConfig() {
         File configFile = new File(hotPotato.getDataFolder(), "language.yml");
-        if (configFile.exists())
-            configFile.delete();
-
-        FileConfiguration defaultConfig = new YamlConfiguration();
-        Map<String, String> deMessages = new HashMap<>();
-        deMessages.put("join_message", "§e%s §7hat das Spiel betreten.");
-        deMessages.put("quit_message", "§e%s §7hat das Spiel verlassen.");
-        Map<String, String> enMessages = new HashMap<>();
-        enMessages.put("join_message", "§e%s §7joined the game.");
-        enMessages.put("quit_message", "§e%s §7left the game.");
-        defaultConfig.set("de", deMessages);
-        defaultConfig.set("en", enMessages);
-        try {
-            defaultConfig.save(configFile);
-        } catch (IOException e) {
-            hotPotato.getLogger().warning("Fehler beim Erstellen der language.yml: " + e.getMessage());
+        if (!configFile.exists()) {
+            FileConfiguration defaultConfig = new YamlConfiguration();
+            Map<String, String> deMessages = new HashMap<>();
+            deMessages.put("join_message", "§e%s §7hat das Spiel betreten.");
+            deMessages.put("quit_message", "§e%s §7hat das Spiel verlassen.");
+            deMessages.put("command_language_usage", "§7Benutze §e/language DE/EN");
+            deMessages.put("command_language_changed", "§aDeine Sprache wurde geändert.");
+            Map<String, String> enMessages = new HashMap<>();
+            enMessages.put("join_message", "§e%s §7joined the game.");
+            enMessages.put("quit_message", "§e%s §7left the game.");
+            enMessages.put("command_language_usage", "§7Usage: §e/language DE/EN");
+            enMessages.put("command_language_changed", "§aYour language has been changed.");
+            defaultConfig.set("de", deMessages);
+            defaultConfig.set("en", enMessages);
+            try {
+                defaultConfig.save(configFile);
+            } catch (IOException e) {
+                hotPotato.getLogger().warning("Fehler beim Erstellen der language.yml: " + e.getMessage());
+            }
+            loadMessages(hotPotato.getConfig());
         }
     }
 }

@@ -8,3 +8,6 @@ commands:
     description: Setup-Command
   start:
     description: Start-Command
+  language:
+    description: Sprache-Command
+    aliases: [sprache]

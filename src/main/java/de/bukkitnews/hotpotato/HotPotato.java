@@ -1,5 +1,6 @@
 package de.bukkitnews.hotpotato;
 
+import de.bukkitnews.hotpotato.commands.LanguageCommand;
 import de.bukkitnews.hotpotato.commands.SetupCommand;
 import de.bukkitnews.hotpotato.commands.StartCommand;
 import de.bukkitnews.hotpotato.game.GameState;
@@ -54,6 +55,7 @@ public class HotPotato extends JavaPlugin {
          */
         this.getCommand("setup").setExecutor(new SetupCommand(this));
         this.getCommand("start").setExecutor(new StartCommand(this));
+        this.getCommand("language").setExecutor(new LanguageCommand(this));
     }
 
     private void initVoting(){
