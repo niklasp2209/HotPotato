@@ -20,7 +20,7 @@ public class HotPotato extends JavaPlugin {
 
         gameStateManager.setGameState(GameState.LOBBY_STATE);
 
-        registerListener(Bukkit.getPluginManager());
+        registerListener();
         registerCommands();
     }
 
@@ -29,8 +29,8 @@ public class HotPotato extends JavaPlugin {
         super.onDisable();
     }
 
-    private void registerListener(PluginManager pluginManager){
-        pluginManager.registerEvents(new PlayerConnectionListener(this), this);
+    private void registerListener(){
+        this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
     }
 
     private void registerCommands(){
