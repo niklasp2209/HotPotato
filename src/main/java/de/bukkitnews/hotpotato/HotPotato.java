@@ -4,8 +4,6 @@ import de.bukkitnews.hotpotato.commands.SetupCommand;
 import de.bukkitnews.hotpotato.commands.StartCommand;
 import de.bukkitnews.hotpotato.game.GameState;
 import de.bukkitnews.hotpotato.game.GameStateManager;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import de.bukkitnews.hotpotato.player.CustomPlayerManager;
 import de.bukkitnews.hotpotato.player.PlayerConnectionListener;
