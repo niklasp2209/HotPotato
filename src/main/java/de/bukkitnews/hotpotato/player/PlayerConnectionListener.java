@@ -128,6 +128,7 @@ public class PlayerConnectionListener implements Listener {
             Voting voting = hotPotato.getVoting();
             if(voting.getPlayerVotes().containsKey(player.getName())){
                 voting.getVotingMaps()[voting.getPlayerVotes().get(player.getName())].removeVote();
+                voting.getPlayerVotes().remove(player.getName());
                 voting.initInventory();
             }
         }

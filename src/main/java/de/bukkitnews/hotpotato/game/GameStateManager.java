@@ -16,7 +16,7 @@ public class GameStateManager {
         gameStates = new GameState[3];
 
         gameStates[GameState.LOBBY_STATE] = new LobbyState(this);
-        gameStates[GameState.INGAME_STATE] = new IngameState();
+        gameStates[GameState.INGAME_STATE] = new IngameState(hotPotato);
         gameStates[GameState.ENDING_STATE] = new EndingState();
     }
 

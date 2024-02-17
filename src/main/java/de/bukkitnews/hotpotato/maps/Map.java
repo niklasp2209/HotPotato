@@ -32,6 +32,12 @@ public class Map {
         hotPotato.saveConfig();
     }
 
+    public void load(){
+        spectatorLocation = new ConfigurationUtil(hotPotato, "Maps."+name+".Spectator").loadLocation();
+        for(int i = 0; i < spawnLocations.length; i++)
+            spawnLocations[i] = new ConfigurationUtil(hotPotato, "Maps."+name+"."+(i+1)).loadLocation();
+    }
+
     public void setSpawnLocation(int locationID, Location location){
         /*
         SETTING PLAYER SPAWN LOCATIONS FOR SPECIFIC MAP

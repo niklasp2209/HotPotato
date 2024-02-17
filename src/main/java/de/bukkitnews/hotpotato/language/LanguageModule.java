@@ -79,6 +79,11 @@ public class LanguageModule {
             deMessages.put("countdown_lobby_players", " §7Es fehlen noch §e%d Spieler §7zum Spielstart.");
             deMessages.put("voting_already", "§cDu hast bereits gevotet.");
             deMessages.put("voting_voted", "§aDu hast für die Map §6%s §aabgestimmt.");
+            deMessages.put("countdown_starting_broadcast", "§7Die heiße Kartoffel startet in §e%d Sekunden§7.");
+            deMessages.put("countdown_starting_broadcast1", "§7Die heiße Kartoffel startet in §e%d Sekunde§7.");
+
+
+
             Map<String, String> enMessages = new HashMap<>();
             enMessages.put("join_message", "§e%s §7joined the game.");
             enMessages.put("quit_message", "§e%s §7left the game.");
@@ -100,6 +105,11 @@ public class LanguageModule {
             enMessages.put("countdown_lobby_players", "§7There are still §e%d missing players §7to start the game.");
             enMessages.put("voting_already", "§cYou have already voted.");
             enMessages.put("voting_voted", "§aYou voted for §6%s§a.");
+            enMessages.put("countdown_starting_broadcast", "§7The Hot Potato starts in §e%d seconds§7.");
+            enMessages.put("countdown_starting_broadcast1", "§7The Hot Potato starts in §e%d second§7.");
+
+
+
             defaultConfig.set("de", deMessages);
             defaultConfig.set("en", enMessages);
             try {
