@@ -3,3 +3,6 @@ author: BukkitNews
 version: "1.0"
 main: de.bukkitnews.hotpotato.HotPotato
 api-version: "1.20"
+commands:
+  setup:
+    description: Setup-Command

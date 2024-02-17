@@ -24,7 +24,7 @@ public class ConfigurationUtil {
 
     public void saveLocation(){
         FileConfiguration fileConfiguration = hotPotato.getConfig();
-        fileConfiguration.set(root+".World", location.getWorld());
+        fileConfiguration.set(root+".World", location.getWorld().getName());
         fileConfiguration.set(root+".X", location.getX());
         fileConfiguration.set(root+".Y", location.getY());
         fileConfiguration.set(root+".Z", location.getZ());
@@ -35,12 +35,15 @@ public class ConfigurationUtil {
 
     public Location loadLocation(){
         FileConfiguration fileConfiguration = hotPotato.getConfig();
-        World world = Bukkit.getWorld(fileConfiguration.getString(root+".World"));
-        double  x = fileConfiguration.getDouble(root+".X"),
-                y = fileConfiguration.getDouble(root+".Y"),
-                z = fileConfiguration.getDouble(root+".Z");
-        float   yaw = (float) fileConfiguration.getDouble(root+".Yaw"),
-                pitch = (float) fileConfiguration.getDouble(root+".Pitch");
-        return new Location(world, x, y, z, yaw, pitch);
+        if(fileConfiguration.contains(root)) {
+            World world = Bukkit.getWorld(fileConfiguration.getString(root + ".World"));
+            double x = fileConfiguration.getDouble(root + ".X"),
+                    y = fileConfiguration.getDouble(root + ".Y"),
+                    z = fileConfiguration.getDouble(root + ".Z");
+            float yaw = (float) fileConfiguration.getDouble(root + ".Yaw"),
+                    pitch = (float) fileConfiguration.getDouble(root + ".Pitch");
+            return new Location(world, x, y, z, yaw, pitch);
+        }
+        return null;
     }
 }

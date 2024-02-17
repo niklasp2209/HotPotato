@@ -1,5 +1,6 @@
 package de.bukkitnews.hotpotato;
 
+import de.bukkitnews.hotpotato.commands.SetupCommand;
 import de.bukkitnews.hotpotato.game.GameState;
 import de.bukkitnews.hotpotato.game.GameStateManager;
 import org.bukkit.Bukkit;
@@ -34,7 +35,7 @@ public class HotPotato extends JavaPlugin {
     }
 
     private void registerCommands(){
-
+        this.getCommand("setup").setExecutor(new SetupCommand(this));
     }
 
     public GameStateManager getGameStateManager() {

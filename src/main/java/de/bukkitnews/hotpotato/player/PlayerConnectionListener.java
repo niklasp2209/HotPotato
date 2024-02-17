@@ -3,7 +3,9 @@ package de.bukkitnews.hotpotato.player;
 import de.bukkitnews.hotpotato.HotPotato;
 import de.bukkitnews.hotpotato.countdowns.LobbyCountdown;
 import de.bukkitnews.hotpotato.game.LobbyState;
+import de.bukkitnews.hotpotato.utils.ConfigurationUtil;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,8 +43,14 @@ public class PlayerConnectionListener implements Listener {
 
         if(hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
             PotatoConstants.playerList.add(player);
-            event.setJoinMessage(PotatoConstants.PREFIX+"§a"+player.getName()+" §7ist dem Spiel beigetreten." +
+            event.setJoinMessage(PotatoConstants.PREFIX+" §a"+player.getName()+" §7ist dem Spiel beigetreten." +
                     " §7["+PotatoConstants.playerList.size()+"/"+PotatoConstants.MAX_PLAYERS+"]");
+
+            ConfigurationUtil configurationUtil = new ConfigurationUtil(hotPotato, "Lobby");
+            if(configurationUtil.loadLocation() != null)
+                player.teleport(configurationUtil.loadLocation());
+            else
+                Bukkit.getConsoleSender().sendMessage(PotatoConstants.PREFIX+" §4Der Lobby Spawn wurde nicht gesetzt.");
 
             LobbyState lobbyState = (LobbyState) hotPotato.getGameStateManager().getCurrentGameState();
             LobbyCountdown lobbyCountdown = lobbyState.getLobbyCountdown();
@@ -67,7 +75,7 @@ public class PlayerConnectionListener implements Listener {
             PotatoConstants.playerList.remove(player);
 
         if(hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
-            event.setQuitMessage(PotatoConstants.PREFIX+"§a"+player.getName()+" §7hat das Spiel verlassen." +
+            event.setQuitMessage(PotatoConstants.PREFIX+" §a"+player.getName()+" §7hat das Spiel verlassen." +
                     " §7["+PotatoConstants.playerList.size()+"/"+PotatoConstants.MAX_PLAYERS+"]");
 
             LobbyState lobbyState = (LobbyState) hotPotato.getGameStateManager().getCurrentGameState();
