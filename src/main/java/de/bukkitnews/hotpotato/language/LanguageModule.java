@@ -81,6 +81,8 @@ public class LanguageModule {
             deMessages.put("voting_voted", "§aDu hast für die Map §6%s §aabgestimmt.");
             deMessages.put("countdown_starting_broadcast", "§7Die heiße Kartoffel startet in §e%d Sekunden§7.");
             deMessages.put("countdown_starting_broadcast1", "§7Die heiße Kartoffel startet in §e%d Sekunde§7.");
+            deMessages.put("countdown_end_broadcast", "§7Server startet in §e%d Sekunden neu§7.");
+            deMessages.put("countdown_end_broadcast1", "§7Server startet in §e%d Sekunde neu§7.");
 
 
 
@@ -107,6 +109,8 @@ public class LanguageModule {
             enMessages.put("voting_voted", "§aYou voted for §6%s§a.");
             enMessages.put("countdown_starting_broadcast", "§7The Hot Potato starts in §e%d seconds§7.");
             enMessages.put("countdown_starting_broadcast1", "§7The Hot Potato starts in §e%d second§7.");
+            enMessages.put("countdown_end_broadcast", "§7Server restarts in §e%d Sekunden§7.");
+            enMessages.put("countdown_end_broadcast1", "§7Server restarts in §e%d Sekunde§7.");
 
 
 

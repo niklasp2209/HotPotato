@@ -4,17 +4,15 @@ import de.bukkitnews.hotpotato.HotPotato;
 import de.bukkitnews.hotpotato.player.CustomPlayerCache;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-public class StartingCountdown extends Countdown{
+public class EndingCountdown extends Countdown {
 
     private HotPotato hotPotato;
-    private int seconds = 10;
-    public static boolean ready = false;
-    private PotatoCountdown potatoCountdown;
+    private int seconds = 16;
 
-    public StartingCountdown(HotPotato hotPotato){
+    public EndingCountdown(HotPotato hotPotato){
         this.hotPotato = hotPotato;
-        this.potatoCountdown = new PotatoCountdown(hotPotato);
     }
 
     @Override
@@ -22,11 +20,18 @@ public class StartingCountdown extends Countdown{
         taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(hotPotato, new Runnable() {
             @Override
             public void run() {
+
                 switch (seconds){
-                    case 10: case 5: case 3: case 2:
+                    case 16:
+                        /*
+                        PLAYER WON
+                         */
+                        break;
+
+                    case 15: case 10: case 5: case 4: case 3: case 2:
                         Bukkit.getOnlinePlayers().forEach(playerEach -> {
                             CustomPlayerCache customPlayerEachCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
-                            String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_starting_broadcast");
+                            String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_end_broadcast");
 
                             playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, seconds));
                         });
@@ -35,24 +40,26 @@ public class StartingCountdown extends Countdown{
                     case 1:
                         Bukkit.getOnlinePlayers().forEach(playerEach -> {
                             CustomPlayerCache customPlayerEachCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
-                            String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_starting_broadcast1");
+                            String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_end_broadcast1");
 
                             playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, seconds));
                         });
                         break;
 
                     case 0:
-                        ready = true;
-                        potatoCountdown.start();
-                        stop();
-                        break;
-
-                    default:
+                        for(Player all : Bukkit.getOnlinePlayers()){
+                            all.kickPlayer("Die Runde wurde neugestartet");
+                        }
+                        Bukkit.reload();
+                        /*
+                        ALTERNATIV SERVER STOP
+                         */
                         break;
                 }
+
                 seconds--;
             }
-        }, 0, 20);
+        },0, 20);
     }
 
     @Override
