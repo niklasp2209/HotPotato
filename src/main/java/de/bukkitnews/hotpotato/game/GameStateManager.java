@@ -1,4 +1,4 @@
-package game;
+package de.bukkitnews.hotpotato.game;
 
 import de.bukkitnews.hotpotato.HotPotato;
 import org.bukkit.entity.Player;

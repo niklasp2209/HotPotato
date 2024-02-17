@@ -1,12 +1,12 @@
 package de.bukkitnews.hotpotato;
 
-import game.GameState;
-import game.GameStateManager;
+import de.bukkitnews.hotpotato.game.GameState;
+import de.bukkitnews.hotpotato.game.GameStateManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import player.CustomPlayerManager;
-import player.PlayerConnectionListener;
+import de.bukkitnews.hotpotato.player.CustomPlayerManager;
+import de.bukkitnews.hotpotato.player.PlayerConnectionListener;
 
 public class HotPotato extends JavaPlugin {
 

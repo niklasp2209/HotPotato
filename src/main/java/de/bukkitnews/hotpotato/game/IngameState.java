@@ -1,4 +1,4 @@
-package game;
+package de.bukkitnews.hotpotato.game;
 
 public class IngameState extends GameState {
     @Override
