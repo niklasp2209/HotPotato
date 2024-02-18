@@ -11,14 +11,14 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class GameListener implements Listener {
 
-    HotPotato hotPotato;
+    private final HotPotato hotPotato;
 
     public GameListener(HotPotato hotPotato){
         this.hotPotato = hotPotato;
     }
 
     @EventHandler
-    public void handleEntityDamage(EntityDamageByEntityEvent event){
+    public void handleEntityDamage(EntityDamageByEntityEvent event) {
         event.setCancelled(true);
         if(!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) return;
         if(this.hotPotato.getPotatoCountdown().getPotato() == null)return;
@@ -31,15 +31,15 @@ public class GameListener implements Listener {
             return;
         }
 
-        if(damagedBy.equals(this.hotPotato.getPotatoCountdown().getPotato())){
+        if(damagedBy.equals(this.hotPotato.getPotatoCountdown().getPotato())) {
             this.hotPotato.getPotatoCountdown().setPotato(damagedPlayer);
             this.hotPotato.getPotatoCountdown().setArmor();
         }
     }
 
-    public void eliminatePlayer(Player player){
+    public void eliminatePlayer(Player player) {
         PotatoConstants.playerList.remove(player);
-        if(PotatoConstants.playerList.size() > 1){
+        if(PotatoConstants.playerList.size() > 1) {
             IngameState ingameState = (IngameState) hotPotato.getGameStateManager().getCurrentGameState();
             ingameState.addSpectator(player);
         }

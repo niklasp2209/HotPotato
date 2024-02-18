@@ -106,7 +106,7 @@ public class SetupCommand implements CommandExecutor {
         return true;
     }
 
-    private void sendIntroductions(Player player){
+    private void sendIntroductions(Player player) {
         player.sendMessage(PotatoConstants.PREFIX+" §e/setup <Lobby>");
         player.sendMessage(PotatoConstants.PREFIX+" §e/setup create <Name> <Erbauer>");
         player.sendMessage(PotatoConstants.PREFIX+" §e/setup set <Name> <1-"+PotatoConstants.MAX_PLAYERS+"> / Spectator");

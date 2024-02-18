@@ -23,7 +23,7 @@ public class IngameState extends GameState {
     private List<Player> players;
     private final StartingCountdown startingCountdown;
 
-    public IngameState(HotPotato hotPotato){
+    public IngameState(HotPotato hotPotato) {
         this.hotPotato = hotPotato;
         this.startingCountdown = new StartingCountdown(hotPotato);
     }
@@ -36,28 +36,28 @@ public class IngameState extends GameState {
         this.map = this.hotPotato.getVoting().getWinnerMap();
         this.map.load();
 
-        for(int i = 0; i < this.players.size(); i++){
+        for(int i = 0; i < this.players.size(); i++) {
             this.players.get(i).teleport(this.map.getSpawnLocations()[i]);
             this.players.get(i).playSound(this.players.get(i).getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
         }
 
-        for(Player current : players){
+        for(Player current : players) {
             current.getInventory().clear();
             updateScoreboard(current);
         }
         this.startingCountdown.start();
     }
 
-    public void addSpectator(Player player){
+    public void addSpectator(Player player) {
         PotatoConstants.spectatorList.add(player);
         player.setGameMode(GameMode.CREATIVE);
         player.teleport(map.getSpectatorLocation());
-        for(Player current : Bukkit.getOnlinePlayers()){
+        for(Player current : Bukkit.getOnlinePlayers()) {
             current.hidePlayer(player);
         }
     }
 
-    public void updateScoreboard(Player player){
+    public void updateScoreboard(Player player) {
         CustomPlayerCache customPlayerCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
 
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();

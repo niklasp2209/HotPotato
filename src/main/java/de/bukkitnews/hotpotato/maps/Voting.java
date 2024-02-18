@@ -22,7 +22,7 @@ public class Voting {
     private final java.util.Map<String, Integer> playerVotes;
     private Inventory inventory;
 
-    public Voting(HotPotato hotPotato, List<Map> mapList){
+    public Voting(HotPotato hotPotato, List<Map> mapList) {
         this.hotPotato = hotPotato;
         this.mapList = mapList;
         this.votingMaps = new Map[PotatoConstants.VOTING_MAP_AMOUNT];
@@ -34,8 +34,8 @@ public class Voting {
     /*
     CHOOSING RANDOM MAPS FOR MAP VOTING
      */
-    private void chooseRandomMaps(){
-        for(int i = 0; i < this.votingMaps.length; i++){
+    private void chooseRandomMaps() {
+        for(int i = 0; i < this.votingMaps.length; i++) {
             Collections.shuffle(this.mapList);
             this.votingMaps[i] = this.mapList.remove(0);
         }
@@ -69,19 +69,19 @@ public class Voting {
     /*
     METHOD FOR GETTING MAP WITH MOST VOTES
      */
-    public Map getWinnerMap(){
+    public Map getWinnerMap() {
         Map map = this.votingMaps[0];
-        for(int i = 1; i < this.votingMaps.length; i++){
+        for(int i = 1; i < this.votingMaps.length; i++) {
             if(this.votingMaps[i].getVotes() >= map.getVotes())
                 map = this.votingMaps[i];
         }
         return map;
     }
 
-    public void vote(Player player, int votingMap){
+    public void vote(Player player, int votingMap) {
         CustomPlayerCache customPlayerCache = this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
 
-        if(!this.playerVotes.containsKey(player.getName())){
+        if(!this.playerVotes.containsKey(player.getName())) {
             player.closeInventory();
             this.votingMaps[votingMap].addVote();
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "voting_voted");
@@ -90,9 +90,9 @@ public class Voting {
             initInventory(player);
             updateInventory(player);
 
-            for(Player current : Bukkit.getOnlinePlayers()){
+            for(Player current : Bukkit.getOnlinePlayers()) {
                 if(current.getOpenInventory().getTitle().equals(this.hotPotato.getLanguageModule().getMessage("de", "voting_inventory_title")) ||
-                current.getOpenInventory().getTitle().equals(this.hotPotato.getLanguageModule().getMessage("en", "voting_inventory_title"))){
+                current.getOpenInventory().getTitle().equals(this.hotPotato.getLanguageModule().getMessage("en", "voting_inventory_title"))) {
                     initInventory(current);
                     updateInventory(current);
                 }

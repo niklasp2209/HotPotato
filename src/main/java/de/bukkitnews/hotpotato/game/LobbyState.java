@@ -6,7 +6,7 @@ public class LobbyState extends GameState {
 
     private final LobbyCountdown lobbyCountdown;
 
-    public LobbyState(GameStateManager gameStateManager){
+    public LobbyState(GameStateManager gameStateManager) {
         this.lobbyCountdown = new LobbyCountdown(gameStateManager);
     }
 

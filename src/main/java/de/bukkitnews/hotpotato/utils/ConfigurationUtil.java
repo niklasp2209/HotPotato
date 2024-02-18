@@ -28,7 +28,7 @@ public class ConfigurationUtil {
     /*
     STORE LOCATION IN LOCAL CONFIGURATION STORAGE
      */
-    public void saveLocation(){
+    public void saveLocation() {
         FileConfiguration fileConfiguration = this.hotPotato.getConfig();
         fileConfiguration.set(this.root+".World", this.location.getWorld().getName());
         fileConfiguration.set(this.root+".X", this.location.getX());
@@ -42,7 +42,7 @@ public class ConfigurationUtil {
     /*
     PULL DATA FROM LOCAL CONFIGURATION STORAGE
      */
-    public Location loadLocation(){
+    public Location loadLocation() {
         FileConfiguration fileConfiguration = this.hotPotato.getConfig();
         if(fileConfiguration.contains(this.root)) {
             World world = Bukkit.getWorld(fileConfiguration.getString(this.root + ".World"));

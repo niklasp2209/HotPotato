@@ -11,7 +11,7 @@ public class GameStateManager {
     private final GameState[] gameStates;
     private GameState currentGameState;
 
-    public GameStateManager(HotPotato hotPotato){
+    public GameStateManager(HotPotato hotPotato) {
         this.hotPotato = hotPotato;
         this.gameStates = new GameState[3];
 
@@ -20,7 +20,7 @@ public class GameStateManager {
         this.gameStates[GameState.ENDING_STATE] = new EndingState();
     }
 
-    public void setGameState(int gameStateID){
+    public void setGameState(int gameStateID) {
         /*
         REPLACE CURRENT GAMESTATE
          */
@@ -30,8 +30,8 @@ public class GameStateManager {
         this.currentGameState.start();
     }
 
-    public void stopCurrentGameState(){
-        if(this.currentGameState != null){
+    public void stopCurrentGameState() {
+        if(this.currentGameState != null) {
             this.currentGameState.stop();
             this.currentGameState = null;
         }

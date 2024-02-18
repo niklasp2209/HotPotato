@@ -18,7 +18,7 @@ public class Map {
     private Location spectatorLocation;
     private int votes;
 
-    public Map(HotPotato hotPotato, String name){
+    public Map(HotPotato hotPotato, String name) {
         this.hotPotato = hotPotato;
         this.name = name.toUpperCase();
 
@@ -26,19 +26,19 @@ public class Map {
             this.builder = hotPotato.getConfig().getString("Maps."+name+".Builder");
     }
 
-    public void create(String builder){
+    public void create(String builder) {
         this.builder = builder;
         this.hotPotato.getConfig().set("Maps."+this.name+".Builder", builder);
         this.hotPotato.saveConfig();
     }
 
-    public void load(){
+    public void load() {
         this.spectatorLocation = new ConfigurationUtil(this.hotPotato, "Maps."+this.name+".Spectator").loadLocation();
         for(int i = 0; i < this.spawnLocations.length; i++)
             this.spawnLocations[i] = new ConfigurationUtil(this.hotPotato, "Maps."+this.name+"."+(i+1)).loadLocation();
     }
 
-    public void setSpawnLocation(int locationID, Location location){
+    public void setSpawnLocation(int locationID, Location location) {
         /*
         SETTING PLAYER SPAWN LOCATIONS FOR SPECIFIC MAP
          */
@@ -46,7 +46,7 @@ public class Map {
         new ConfigurationUtil(this.hotPotato, location, "Maps."+this.name+"."+locationID).saveLocation();
     }
 
-    public void setSpectatorLocation(Location location){
+    public void setSpectatorLocation(Location location) {
         /*
         SETTING PLAYER SPECTATOR LOCATION FOR SPECIFIC MAP
          */
@@ -54,7 +54,7 @@ public class Map {
         new ConfigurationUtil(this.hotPotato, location, "Maps."+this.name+".Spectator").saveLocation();
     }
 
-    public boolean playable(){
+    public boolean playable() {
         /*
         METHOD SCANNING IF MAP IS READY TO PLAY. FIRSTLY SCANNING IF SPECTATOR AND BUILDER IS VALID
         BECAUSE CHECKING THE SPAWNLOCATIONS FIRST WILL BE BAD FOR SERVER RUNTIME
@@ -62,7 +62,7 @@ public class Map {
         ConfigurationSection configurationSection = this.hotPotato.getConfig().getConfigurationSection("Maps."+this.name);
         if(!configurationSection.contains("Spectator"))return false;
         if(!configurationSection.contains("Builder"))return false;
-        for(int i = 1; i < PotatoConstants.MAX_PLAYERS+1; i++){
+        for(int i = 1; i < PotatoConstants.MAX_PLAYERS+1; i++) {
             if(!(configurationSection.contains(Integer.toString(i))))return false;
         }
         return true;

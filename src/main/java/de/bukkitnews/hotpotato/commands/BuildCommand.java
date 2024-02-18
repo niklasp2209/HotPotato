@@ -18,7 +18,7 @@ public class BuildCommand implements CommandExecutor {
     private final HotPotato hotPotato;
     private final List<Player> buildList;
 
-    public BuildCommand(HotPotato hotPotato){
+    public BuildCommand(HotPotato hotPotato) {
         this.hotPotato = hotPotato;
         this.buildList = new ArrayList<>();
     }
@@ -30,21 +30,21 @@ public class BuildCommand implements CommandExecutor {
         CustomPlayerCache customPlayerCache = this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
 
         //CHECKING FOR PERMISSION
-        if(!player.hasPermission("hotpotato.build")){
+        if(!player.hasPermission("hotpotato.build")) {
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "permission");
             player.sendMessage(PotatoConstants.PREFIX+message);
             return true;
         }
 
         //CHECKING IF WRONG ARGS
-        if(args.length != 0){
+        if(args.length != 0) {
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_build_usage");
             player.sendMessage(PotatoConstants.PREFIX+message);
             return true;
         }
 
         //CHANGE BUILD MODE
-        if(this.buildList.contains(player)){
+        if(this.buildList.contains(player)) {
             this.buildList.remove(player);
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_build_deactivated");
             player.sendMessage(PotatoConstants.PREFIX+message);

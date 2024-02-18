@@ -15,13 +15,13 @@ public class VotingListener implements Listener {
     private final HotPotato hotPotato;
     private final Voting voting;
 
-    public VotingListener(HotPotato hotPotato){
+    public VotingListener(HotPotato hotPotato) {
         this.hotPotato = hotPotato;
         this.voting = hotPotato.getVoting();
     }
 
     @EventHandler
-    public void handleVote(PlayerInteractEvent event){
+    public void handleVote(PlayerInteractEvent event) {
         if(!(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK))return;
         if(event.getHand() == EquipmentSlot.OFF_HAND)return;
         if(event.getItem() == null)return;
@@ -38,7 +38,7 @@ public class VotingListener implements Listener {
                 event.getView().getTitle().equals(this.hotPotato.getLanguageModule().getMessage("en", "voting_inventory_title"))))return;
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
-        for(int i = 0; i < this.voting.getVotingInventoryOrder().length; i++){
+        for(int i = 0; i < this.voting.getVotingInventoryOrder().length; i++) {
             if(this.voting.getVotingInventoryOrder()[i] == event.getSlot()){
                 this.voting.vote(player, i);
                 return;

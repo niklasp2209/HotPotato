@@ -13,22 +13,22 @@ public class ItemBuilder {
     private final ItemStack itemStack;
     private final ItemMeta itemMeta;
 
-    public ItemBuilder(Material material){
+    public ItemBuilder(Material material) {
         this.itemStack = new ItemStack(material);
         this.itemMeta = this.itemStack.getItemMeta();
     }
 
-    public ItemBuilder setDisplayname(String name){
+    public ItemBuilder setDisplayname(String name) {
         this.itemMeta.setDisplayName(name);
         return this;
     }
 
-    public ItemBuilder setLore(String... lore){
+    public ItemBuilder setLore(String... lore) {
         this.itemMeta.setLore(Arrays.asList(lore));
         return this;
     }
 
-    public ItemStack build(){
+    public ItemStack build() {
         this.itemStack.setItemMeta(this.itemMeta);
         return this.itemStack;
     }

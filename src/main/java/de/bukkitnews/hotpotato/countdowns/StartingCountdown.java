@@ -11,7 +11,7 @@ public class StartingCountdown extends Countdown{
     private final HotPotato hotPotato;
     private int seconds = 10;
 
-    public StartingCountdown(HotPotato hotPotato){
+    public StartingCountdown(HotPotato hotPotato) {
         this.hotPotato = hotPotato;
     }
 
@@ -20,7 +20,7 @@ public class StartingCountdown extends Countdown{
         this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.hotPotato, new Runnable() {
             @Override
             public void run() {
-                switch (seconds){
+                switch (seconds) {
                     case 10: case 5: case 3: case 2:
                         Bukkit.getOnlinePlayers().forEach(playerEach -> {
                             CustomPlayerCache customPlayerEachCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);

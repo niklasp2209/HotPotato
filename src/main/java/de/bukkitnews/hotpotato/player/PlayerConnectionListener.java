@@ -39,10 +39,10 @@ public class PlayerConnectionListener implements Listener {
         if (this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
             // LOGIC FOR PLAYER JOINING SERVER WHEN GAME ISNT STARTET (LOBBYSTATE)
             handleJoinInLobby(player);
-        } else if(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof IngameState){
+        } else if(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof IngameState) {
             IngameState ingameState = (IngameState) hotPotato.getGameStateManager().getCurrentGameState();
             ingameState.addSpectator(player);
-        }else{
+        } else {
             //NO LANGUAGE CHECK BECAUSE PLAYER CANT CHANGE LANGUAGE BEFORE
             player.kickPlayer("Die Runde startet gerade neu.");
         }
@@ -53,7 +53,7 @@ public class PlayerConnectionListener implements Listener {
         player.getInventory().clear();
         player.getInventory().setItem(4, this.voteItem);
         player.setGameMode(GameMode.SURVIVAL);
-        for(Player current : Bukkit.getOnlinePlayers()){
+        for(Player current : Bukkit.getOnlinePlayers()) {
             current.showPlayer(player);
             player.showPlayer(current);
         }

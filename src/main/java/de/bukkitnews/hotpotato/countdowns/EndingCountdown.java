@@ -53,7 +53,7 @@ public class EndingCountdown extends Countdown {
                         break;
 
                     case 0:
-                        for(Player all : Bukkit.getOnlinePlayers()){
+                        for(Player all : Bukkit.getOnlinePlayers()) {
                             all.kickPlayer("Die Runde wurde neugestartet");
                         }
                         Bukkit.reload();

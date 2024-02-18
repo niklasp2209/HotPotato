@@ -24,7 +24,7 @@ public class LobbyCountdown extends Countdown {
     private boolean isRunning;
     private final GameStateManager gameStateManager;
 
-    public LobbyCountdown(GameStateManager gameStateManager){
+    public LobbyCountdown(GameStateManager gameStateManager) {
         this.gameStateManager = gameStateManager;
         this.seconds = PotatoConstants.LOBBY_COUNTDOWN;
     }
@@ -38,7 +38,7 @@ public class LobbyCountdown extends Countdown {
         this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.gameStateManager.getHotPotato(), new Runnable() {
             @Override
             public void run() {
-                switch (seconds){
+                switch (seconds) {
                     case 60: case 30: case 15: case 10: case 5: case 4: case 3: case 2:
                         Bukkit.getOnlinePlayers().forEach(playerEach -> {
                             CustomPlayerCache customPlayerEachCache = gameStateManager.getHotPotato().getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
@@ -52,12 +52,12 @@ public class LobbyCountdown extends Countdown {
                         /*
                         GETIING MAP WINNER OF MAP VOTING AND BROADCAST
                          */
-                        if(seconds == 5){
+                        if(seconds == 5) {
                             Voting voting = gameStateManager.getHotPotato().getVoting();
                             Map winnerMap;
-                            if(voting != null){
+                            if(voting != null) {
                                 winnerMap = voting.getWinnerMap();
-                            }else{
+                            } else {
                                 List<Map> mapList = gameStateManager.getHotPotato().getMapList();
                                 Collections.shuffle(mapList);
                                 winnerMap = mapList.get(0);
@@ -96,7 +96,7 @@ public class LobbyCountdown extends Countdown {
 
     @Override
     public void stop() {
-        if(this.isRunning){
+        if(this.isRunning) {
             Bukkit.getScheduler().cancelTask(this.taskID);
             this.isRunning = false;
             this.seconds = PotatoConstants.LOBBY_COUNTDOWN;
@@ -122,8 +122,8 @@ public class LobbyCountdown extends Countdown {
         },0L, 20L * PotatoConstants.IDLE_TIME);
     }
 
-    public void stopIdle(){
-        if(this.isIdling){
+    public void stopIdle() {
+        if(this.isIdling) {
             Bukkit.getScheduler().cancelTask(this.idleID);
             this.isIdling = false;
         }

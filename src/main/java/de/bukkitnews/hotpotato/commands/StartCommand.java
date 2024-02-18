@@ -29,14 +29,14 @@ public class StartCommand implements CommandExecutor {
         CustomPlayerCache customPlayerCache = this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
 
         //CHECKING FOR PERMISSION
-        if(!player.hasPermission("hotpotato.start")){
+        if(!player.hasPermission("hotpotato.start")) {
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "permission");
             player.sendMessage(PotatoConstants.PREFIX+message);
             return true;
         }
 
         //CHECKING IF WRONG ARGS OR NOT IN LOBBYSTATE
-        if(args.length != 0 || !(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState)){
+        if(args.length != 0 || !(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState)) {
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_start_usage");
             player.sendMessage(PotatoConstants.PREFIX+message);
             return true;
@@ -44,7 +44,7 @@ public class StartCommand implements CommandExecutor {
 
         //CHECKING IF COUNTDOWN ALREADY STARTED
         LobbyState lobbyState = (LobbyState) this.hotPotato.getGameStateManager().getCurrentGameState();
-        if(!(lobbyState.getLobbyCountdown().isRunning() && lobbyState.getLobbyCountdown().getSeconds() > PotatoConstants.FORCE_START_TIME)){
+        if(!(lobbyState.getLobbyCountdown().isRunning() && lobbyState.getLobbyCountdown().getSeconds() > PotatoConstants.FORCE_START_TIME)) {
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_start_already_started");
             player.sendMessage(PotatoConstants.PREFIX+message);
             return true;

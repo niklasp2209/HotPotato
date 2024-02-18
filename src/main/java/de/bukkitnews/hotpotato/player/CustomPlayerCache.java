@@ -12,7 +12,7 @@ public class CustomPlayerCache {
     private final int wonGames;
     private String locale;
 
-    public CustomPlayerCache(boolean isIngame, int playedGames, int wonGames, String locale){
+    public CustomPlayerCache(boolean isIngame, int playedGames, int wonGames, String locale) {
         this.isIngame = isIngame;
         this.playedGames = playedGames;
         this.wonGames = wonGames;

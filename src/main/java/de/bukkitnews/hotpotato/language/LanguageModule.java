@@ -17,13 +17,13 @@ public class LanguageModule {
     private final HotPotato hotPotato;
     private final Map<String, Map<String, String>> messages = new HashMap<>();
 
-    public LanguageModule(HotPotato hotPotato, FileConfiguration fileConfiguration){
+    public LanguageModule(HotPotato hotPotato, FileConfiguration fileConfiguration) {
         this.hotPotato = hotPotato;
         loadMessages(fileConfiguration);
     }
 
     //LOADING MESSAGE FROM LOCAL DATA STORAGE
-    private void loadMessages(FileConfiguration fileConfiguration){
+    private void loadMessages(FileConfiguration fileConfiguration) {
         File languageFile = new File(this.hotPotato.getDataFolder(), "language.yml");
         if (!languageFile.exists()) {
             this.hotPotato.getLogger().severe("Die language.yml wurde nicht gefunden! Stelle sicher, dass sie existiert.");
@@ -42,7 +42,7 @@ public class LanguageModule {
         }
     }
 
-    public String getMessage(String locale, String key){
+    public String getMessage(String locale, String key) {
         Map<String, String> messageMap = this.messages.get(locale);
         if(messageMap != null){
             return messageMap.getOrDefault(key, "Message not found");

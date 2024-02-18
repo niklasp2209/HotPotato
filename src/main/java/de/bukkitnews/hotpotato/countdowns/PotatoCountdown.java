@@ -22,7 +22,7 @@ public class PotatoCountdown extends Countdown {
     private final HotPotato hotPotato;
     private final EndingCountdown endingCountdown;
 
-    public PotatoCountdown(HotPotato hotPotato){
+    public PotatoCountdown(HotPotato hotPotato) {
         this.hotPotato = hotPotato;
         this.endingCountdown = new EndingCountdown(hotPotato);
     }
@@ -33,19 +33,19 @@ public class PotatoCountdown extends Countdown {
         this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.hotPotato, new Runnable() {
             @Override
             public void run() {
-                switch (seconds){
+                switch (seconds) {
                     case 20:
                         selectPotato();
                         break;
 
                     case 0:
-                        for(Player current : Bukkit.getOnlinePlayers()){
+                        for(Player current : Bukkit.getOnlinePlayers()) {
                             current.playSound(potato.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
                         }
                         hotPotato.getGameListener().eliminatePlayer(potato);
-                        if(PotatoConstants.playerList.size() == 1){
+                        if(PotatoConstants.playerList.size() == 1) {
                             ConfigurationUtil configurationUtil = new ConfigurationUtil(hotPotato, "Lobby");
-                            for(Player current : Bukkit.getOnlinePlayers()){
+                            for(Player current : Bukkit.getOnlinePlayers()) {
                                 current.teleport(configurationUtil.loadLocation());
                                 current.playSound(current.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
                                 current.showPlayer(current);
@@ -63,16 +63,16 @@ public class PotatoCountdown extends Countdown {
                         break;
                 }
 
-                if(potato != null){
+                if(potato != null) {
                     Firework firework = (Firework) potato.getWorld().spawnEntity(potato.getLocation(), EntityType.FIREWORK);
                     potato.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, potato.getLocation(), 0, 0, 0, 0);
-                    for(Player current : Bukkit.getOnlinePlayers()){
+                    for(Player current : Bukkit.getOnlinePlayers()) {
                         current.playSound(potato.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, 1F, 1F);
                     }
                 }
 
-                for(Player current : Bukkit.getOnlinePlayers()){
-                    if(seconds <= 20){
+                for(Player current : Bukkit.getOnlinePlayers()) {
+                    if(seconds <= 20) {
                         current.setLevel(seconds);
                     }else
                         current.setLevel(0);
@@ -89,12 +89,12 @@ public class PotatoCountdown extends Countdown {
         },0, 20);
     }
 
-    private void selectPotato(){
+    private void selectPotato() {
         Collections.shuffle(PotatoConstants.playerList);
         this.potato = PotatoConstants.playerList.get(0);
     }
 
-    public void setArmor(){
+    public void setArmor() {
         ItemStack leatherHelmet = new ItemStack(Material.LEATHER_HELMET);
         LeatherArmorMeta leatherHelmetItemMeta = (LeatherArmorMeta) leatherHelmet.getItemMeta();
         leatherHelmetItemMeta.setColor(Color.RED);
@@ -122,7 +122,7 @@ public class PotatoCountdown extends Countdown {
         potato.getInventory().setBoots(leatherBoots);
 
         Bukkit.getOnlinePlayers().forEach(current -> {
-            if(current != potato){
+            if(current != potato) {
                 current.getInventory().clear();
             }
         });
