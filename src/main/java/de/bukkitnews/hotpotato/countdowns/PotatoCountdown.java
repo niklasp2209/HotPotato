@@ -32,8 +32,7 @@ public class PotatoCountdown extends Countdown {
             public void run() {
                 switch (seconds){
                     case 20:
-                        Collections.shuffle(PotatoConstants.playerList);
-                        potato = PotatoConstants.playerList.get(0);
+                        selectPotato();
                         break;
 
                     case 0:
@@ -66,10 +65,14 @@ public class PotatoCountdown extends Countdown {
                         current.playSound(potato.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, 1F, 1F);
                     }
                 }
-
                 seconds--;
             }
         },0, 20);
+    }
+
+    private void selectPotato(){
+        Collections.shuffle(PotatoConstants.playerList);
+        potato = PotatoConstants.playerList.get(0);
     }
 
     @Override
@@ -78,7 +81,7 @@ public class PotatoCountdown extends Countdown {
     }
 
     public Player getPotato() {
-        return this.potato;
+        return potato;
     }
 
     public void setPotato(Player potato) {

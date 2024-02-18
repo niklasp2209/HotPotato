@@ -3,6 +3,7 @@ package de.bukkitnews.hotpotato;
 import de.bukkitnews.hotpotato.commands.LanguageCommand;
 import de.bukkitnews.hotpotato.commands.SetupCommand;
 import de.bukkitnews.hotpotato.commands.StartCommand;
+import de.bukkitnews.hotpotato.countdowns.PotatoCountdown;
 import de.bukkitnews.hotpotato.game.GameListener;
 import de.bukkitnews.hotpotato.game.GameState;
 import de.bukkitnews.hotpotato.game.GameStateManager;
@@ -10,6 +11,7 @@ import de.bukkitnews.hotpotato.language.LanguageModule;
 import de.bukkitnews.hotpotato.maps.Map;
 import de.bukkitnews.hotpotato.maps.Voting;
 import de.bukkitnews.hotpotato.maps.VotingListener;
+import de.bukkitnews.hotpotato.player.PlayerChatListener;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import de.bukkitnews.hotpotato.utils.WorldListener;
 import org.bukkit.Bukkit;
@@ -55,7 +57,8 @@ public class HotPotato extends JavaPlugin {
 
         this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
         this.getServer().getPluginManager().registerEvents(new VotingListener(this), this);
-        this.getServer().getPluginManager().registerEvents(new GameListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerChatListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new GameListener(new PotatoCountdown(this)), this);
         this.getServer().getPluginManager().registerEvents(worldListener, this);
     }
 

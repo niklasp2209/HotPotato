@@ -85,6 +85,7 @@ public class LanguageModule {
             deMessages.put("countdown_end_broadcast", "§7Server startet in §e%d Sekunden neu§7.");
             deMessages.put("countdown_end_broadcast1", "§7Server startet in §e%d Sekunde neu§7.");
             deMessages.put("voting_inventory_title", "§eMap Auswahl");
+            deMessages.put("chat_no", "§cCommand §e%s §cwurde nicht gefunden.");
 
 
 
@@ -115,6 +116,7 @@ public class LanguageModule {
             enMessages.put("countdown_end_broadcast", "§7Server restarts in §e%d Sekunden§7.");
             enMessages.put("countdown_end_broadcast1", "§7Server restarts in §e%d Sekunde§7.");
             enMessages.put("voting_inventory_title", "§eMap Voting");
+            enMessages.put("chat_no", "§cCommand §e%s §cnot found.");
 
 
 

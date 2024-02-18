@@ -10,6 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
@@ -40,6 +41,13 @@ public class WorldListener implements Listener {
     @EventHandler
     public void handleCrop(PlayerInteractEvent event){
         if(event.getAction().equals(Action.PHYSICAL) && event.getClickedBlock().getType().equals(Material.FARMLAND)){
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void handleDamage(EntityDamageEvent event){
+        if(event.getEntity() instanceof Player){
             event.setCancelled(true);
         }
     }
