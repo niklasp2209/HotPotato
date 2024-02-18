@@ -87,6 +87,7 @@ public class LanguageModule {
             deMessages.put("voting_inventory_title", "§eMap Auswahl");
             deMessages.put("chat_no", "§cCommand §e%s §cwurde nicht gefunden.");
             deMessages.put("chat_won", "§e%s §7hat die Runde §agewonnen§7!");
+            deMessages.put("scoreboard", "§7Verbleibende Spieler:");
 
 
 
@@ -119,6 +120,7 @@ public class LanguageModule {
             enMessages.put("voting_inventory_title", "§eMap Voting");
             enMessages.put("chat_no", "§cCommand §e%s §cnot found.");
             enMessages.put("chat_won", "§e%s §7has §awon§7!");
+            enMessages.put("scoreboard", "§7Remaining players:");
 
 
 

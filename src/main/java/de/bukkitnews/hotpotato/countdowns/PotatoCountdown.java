@@ -1,6 +1,8 @@
 package de.bukkitnews.hotpotato.countdowns;
 
 import de.bukkitnews.hotpotato.HotPotato;
+import de.bukkitnews.hotpotato.game.IngameState;
+import de.bukkitnews.hotpotato.game.LobbyState;
 import de.bukkitnews.hotpotato.utils.ConfigurationUtil;
 import de.bukkitnews.hotpotato.utils.ItemBuilder;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
@@ -75,7 +77,12 @@ public class PotatoCountdown extends Countdown {
                         current.setLevel(0);
                 }
 
+                IngameState ingameState = (IngameState) hotPotato.getGameStateManager().getCurrentGameState();
+                for(Player current : Bukkit.getOnlinePlayers()) {
+                    ingameState.updateScoreboard(current);
+                }
                 setArmor();
+
                 seconds--;
             }
         },0, 20);
