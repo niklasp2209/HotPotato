@@ -2,12 +2,14 @@ package de.bukkitnews.hotpotato.player;
 
 import de.bukkitnews.hotpotato.HotPotato;
 import de.bukkitnews.hotpotato.countdowns.LobbyCountdown;
+import de.bukkitnews.hotpotato.game.IngameState;
 import de.bukkitnews.hotpotato.game.LobbyState;
 import de.bukkitnews.hotpotato.maps.Voting;
 import de.bukkitnews.hotpotato.utils.ConfigurationUtil;
 import de.bukkitnews.hotpotato.utils.ItemBuilder;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,6 +39,12 @@ public class PlayerConnectionListener implements Listener {
         if (this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
             // LOGIC FOR PLAYER JOINING SERVER WHEN GAME ISNT STARTET (LOBBYSTATE)
             handleJoinInLobby(player);
+        } else if(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof IngameState){
+            IngameState ingameState = (IngameState) hotPotato.getGameStateManager().getCurrentGameState();
+            ingameState.addSpectator(player);
+        }else{
+            //NO LANGUAGE CHECK BECAUSE PLAYER CANT CHANGE LANGUAGE BEFORE
+            player.kickPlayer("Die Runde startet gerade neu.");
         }
     }
 
@@ -44,6 +52,11 @@ public class PlayerConnectionListener implements Listener {
         PotatoConstants.playerList.add(player);
         player.getInventory().clear();
         player.getInventory().setItem(4, this.voteItem);
+        player.setGameMode(GameMode.SURVIVAL);
+        for(Player current : Bukkit.getOnlinePlayers()){
+            current.showPlayer(player);
+            player.showPlayer(current);
+        }
 
         Bukkit.getOnlinePlayers().forEach(playerEach -> {
             CustomPlayerCache customPlayerEachCache = this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);

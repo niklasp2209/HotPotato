@@ -6,6 +6,7 @@ import de.bukkitnews.hotpotato.maps.Map;
 import de.bukkitnews.hotpotato.player.CustomPlayerCache;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -45,6 +46,15 @@ public class IngameState extends GameState {
             updateScoreboard(current);
         }
         this.startingCountdown.start();
+    }
+
+    public void addSpectator(Player player){
+        PotatoConstants.spectatorList.add(player);
+        player.setGameMode(GameMode.CREATIVE);
+        player.teleport(map.getSpectatorLocation());
+        for(Player current : Bukkit.getOnlinePlayers()){
+            current.hidePlayer(player);
+        }
     }
 
     public void updateScoreboard(Player player){

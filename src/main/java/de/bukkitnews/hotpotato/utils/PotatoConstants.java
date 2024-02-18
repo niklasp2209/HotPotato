@@ -14,4 +14,5 @@ public class PotatoConstants {
     public static final int MIN_PLAYERS = 1, MAX_PLAYERS = 12, IDLE_TIME = 15, LOBBY_COUNTDOWN = 60, FORCE_START_TIME = 10,
                             VOTING_MAP_AMOUNT = 2;
     public static final List<Player> playerList = new ArrayList<>();
+    public static final List<Player> spectatorList = new ArrayList<>();
 }

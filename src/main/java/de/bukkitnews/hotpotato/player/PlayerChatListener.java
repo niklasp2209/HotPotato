@@ -36,6 +36,14 @@ public class PlayerChatListener implements Listener {
     @EventHandler
     public void handleChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
+
+        if(PotatoConstants.spectatorList.contains(player)){
+            event.setCancelled(true);
+            for(Player current : Bukkit.getOnlinePlayers())
+                current.sendMessage("§a%1$s §8» §7%2$s");
+            return;
+        }
+
         event.setFormat("§a%1$s §8» §7%2$s");
     }
 }

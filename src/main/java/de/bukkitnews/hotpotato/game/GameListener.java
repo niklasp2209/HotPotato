@@ -26,6 +26,11 @@ public class GameListener implements Listener {
         Player damagedBy = (Player) event.getDamager();
         Player damagedPlayer = (Player) event.getEntity();
 
+        if(PotatoConstants.spectatorList.contains(damagedBy)) {
+            event.setCancelled(true);
+            return;
+        }
+
         if(damagedBy.equals(this.hotPotato.getPotatoCountdown().getPotato())){
             this.hotPotato.getPotatoCountdown().setPotato(damagedPlayer);
             this.hotPotato.getPotatoCountdown().setArmor();
@@ -35,10 +40,8 @@ public class GameListener implements Listener {
     public void eliminatePlayer(Player player){
         PotatoConstants.playerList.remove(player);
         if(PotatoConstants.playerList.size() > 1){
-            player.setGameMode(GameMode.SPECTATOR);
-            for(Player current : Bukkit.getOnlinePlayers()){
-                current.hidePlayer(player);
-            }
+            IngameState ingameState = (IngameState) hotPotato.getGameStateManager().getCurrentGameState();
+            ingameState.addSpectator(player);
         }
     }
 }
