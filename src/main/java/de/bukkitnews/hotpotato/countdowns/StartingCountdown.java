@@ -59,7 +59,4 @@ public class StartingCountdown extends Countdown{
         Bukkit.getScheduler().cancelTask(this.taskID);
     }
 
-    public PotatoCountdown getPotatoCountdown() {
-        return this.potatoCountdown;
-    }
 }
