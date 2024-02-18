@@ -72,16 +72,14 @@ public class PlayerConnectionListener implements Listener {
         Player player = event.getPlayer();
         event.setQuitMessage(null);
 
-        if (PotatoConstants.playerList.contains(player))
-            PotatoConstants.playerList.remove(player);
+        PotatoConstants.playerList.remove(player);
 
         if (this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
             // CHECKING IF THERE ARE STILL ENOUGH PLAYERS TO FORCE GAME START
             handleQuitInLobby(player);
         }
 
-        if (this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().containsKey(player))
-            this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().remove(player);
+        this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().remove(player);
     }
 
     private void handleQuitInLobby(Player player) {

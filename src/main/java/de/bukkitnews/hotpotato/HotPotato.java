@@ -41,13 +41,13 @@ public class HotPotato extends JavaPlugin {
         this.languageModule = new LanguageModule(this, getConfig());
         this.worldListener = new WorldListener(this);
         this.buildCommand = new BuildCommand(this);
-        languageModule.createDefaultConfig();
+        this.languageModule.createDefaultConfig();
 
-        gameStateManager.setGameState(GameState.LOBBY_STATE);
+        this.gameStateManager.setGameState(GameState.LOBBY_STATE);
 
         registerListener();
         registerCommands();
-        worldListener.initWorlds();
+        this.worldListener.initWorlds();
     }
 
     @Override
@@ -72,50 +72,50 @@ public class HotPotato extends JavaPlugin {
         this.getCommand("setup").setExecutor(new SetupCommand(this));
         this.getCommand("start").setExecutor(new StartCommand(this));
         this.getCommand("language").setExecutor(new LanguageCommand(this));
-        this.getCommand("build").setExecutor(buildCommand);
+        this.getCommand("build").setExecutor(this.buildCommand);
     }
 
     private void initVoting(){
         /*
         CHECKING ALL CREATED MAP IF THEY FINISHED SETUP
          */
-        mapList = new ArrayList<>();
+        this.mapList = new ArrayList<>();
         for(String current : getConfig().getConfigurationSection("Maps").getKeys(false)){
             Map map = new Map(this, current);
             if(map.playable())
-                mapList.add(map);
+                this.mapList.add(map);
             else
                 Bukkit.getConsoleSender().sendMessage("§cMap "+map.getName()+ " §cist noch nicht fertig eingerichtet!");
         }
-        if(mapList.size() >= PotatoConstants.VOTING_MAP_AMOUNT)
-            voting = new Voting(this, mapList);
+        if(this.mapList.size() >= PotatoConstants.VOTING_MAP_AMOUNT)
+            this.voting = new Voting(this, this.mapList);
         else {
             Bukkit.getConsoleSender().sendMessage("§cEs müssen mindestens " + PotatoConstants.VOTING_MAP_AMOUNT + " §cMaps eingerichtet sein.");
-            voting = null;
+            this.voting = null;
         }
     }
 
     public GameStateManager getGameStateManager() {
-        return gameStateManager;
+        return this.gameStateManager;
     }
 
     public CustomPlayerManager getCustomPlayerManager() {
-        return customPlayerManager;
+        return this.customPlayerManager;
     }
 
     public Voting getVoting() {
-        return voting;
+        return this.voting;
     }
 
     public List<Map> getMapList() {
-        return mapList;
+        return this.mapList;
     }
 
     public LanguageModule getLanguageModule() {
-        return languageModule;
+        return this.languageModule;
     }
 
     public BuildCommand getBuildCommand() {
-        return buildCommand;
+        return this.buildCommand;
     }
 }

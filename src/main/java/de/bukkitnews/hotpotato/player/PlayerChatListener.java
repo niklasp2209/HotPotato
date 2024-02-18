@@ -13,7 +13,7 @@ import org.bukkit.help.HelpTopic;
 
 public class PlayerChatListener implements Listener {
 
-    private HotPotato hotPotato;
+    private final HotPotato hotPotato;
 
     public PlayerChatListener(HotPotato hotPotato){
         this.hotPotato = hotPotato;

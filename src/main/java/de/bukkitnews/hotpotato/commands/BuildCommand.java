@@ -44,12 +44,12 @@ public class BuildCommand implements CommandExecutor {
         }
 
         //CHANGE BUILD MODE
-        if(buildList.contains(player)){
-            buildList.remove(player);
+        if(this.buildList.contains(player)){
+            this.buildList.remove(player);
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_build_deactivated");
             player.sendMessage(PotatoConstants.PREFIX+message);
         }else{
-            buildList.add(player);
+            this.buildList.add(player);
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_build_activated");
             player.sendMessage(PotatoConstants.PREFIX+message);
         }
@@ -59,6 +59,6 @@ public class BuildCommand implements CommandExecutor {
     }
 
     public List<Player> getBuildList() {
-        return buildList;
+        return this.buildList;
     }
 }
