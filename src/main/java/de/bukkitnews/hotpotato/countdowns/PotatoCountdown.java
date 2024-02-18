@@ -42,13 +42,13 @@ public class PotatoCountdown extends Countdown {
                         for(Player current : Bukkit.getOnlinePlayers()){
                             current.playSound(potato.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
                         }
-                        PotatoConstants.playerList.remove(potato);
+                        hotPotato.getGameListener().eliminatePlayer(potato);
                         if(PotatoConstants.playerList.size() == 1){
                             ConfigurationUtil configurationUtil = new ConfigurationUtil(hotPotato, "Lobby");
                             for(Player current : Bukkit.getOnlinePlayers()){
                                 current.teleport(configurationUtil.loadLocation());
                                 current.playSound(current.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
-
+                                current.showPlayer(current);
                             }
                             endingCountdown.start();
                             stop();
@@ -93,7 +93,7 @@ public class PotatoCountdown extends Countdown {
         this.potato = PotatoConstants.playerList.get(0);
     }
 
-    private void setArmor(){
+    public void setArmor(){
         ItemStack leatherHelmet = new ItemStack(Material.LEATHER_HELMET);
         LeatherArmorMeta leatherHelmetItemMeta = (LeatherArmorMeta) leatherHelmet.getItemMeta();
         leatherHelmetItemMeta.setColor(Color.RED);
