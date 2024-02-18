@@ -1,6 +1,7 @@
 package de.bukkitnews.hotpotato.game;
 
 import de.bukkitnews.hotpotato.HotPotato;
+import de.bukkitnews.hotpotato.achievement.Achievement;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -42,6 +43,7 @@ public class GameListener implements Listener {
         if(PotatoConstants.playerList.size() > 1) {
             IngameState ingameState = (IngameState) hotPotato.getGameStateManager().getCurrentGameState();
             ingameState.addSpectator(player);
+            hotPotato.getAchievementManager().setAchievement(player.getUniqueId().toString(), Achievement.FIRST_DEATH);
         }
     }
 }

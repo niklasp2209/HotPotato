@@ -91,6 +91,11 @@ public class LanguageModule {
             deMessages.put("command_build_usage", "§cBenutze /build");
             deMessages.put("command_build_deactivated", "§7Du hast den §eBaumodus §cdeaktiviert§7.");
             deMessages.put("command_build_activated", "§7Du hast den §eBaumodus §aaktiviert§7.");
+            deMessages.put("achievement_first_win", "§7Erster Sieg");
+            deMessages.put("achievement_first_death", "§7Erster Tot");
+            deMessages.put("achievement_fairplay", "§7Guter Verlierer");
+            deMessages.put("achievement_inventory_title", "§eErfolge");
+            deMessages.put("command_achievement_usage", "§cBenutze /achievement");
 
 
 
@@ -127,6 +132,11 @@ public class LanguageModule {
             enMessages.put("command_build_usage", "§cUsage /build");
             enMessages.put("command_build_deactivated", "§7You have §cdeactivated §7the §eBuildmode§7.");
             enMessages.put("command_build_activated", "§7You have §aactivated §7the §eBuildmode§7.");
+            enMessages.put("achievement_first_win", "§7First win");
+            enMessages.put("achievement_first_death", "§7First death");
+            enMessages.put("achievement_fairplay", "§7Fairplay");
+            enMessages.put("achievement_inventory_title", "§eAchievements");
+            enMessages.put("command_achievement_usage", "§cUsage: /achievement");
 
 
 
@@ -134,8 +144,8 @@ public class LanguageModule {
             defaultConfig.set("en", enMessages);
             try {
                 defaultConfig.save(configFile);
-            } catch (IOException e) {
-                this.hotPotato.getLogger().warning("Fehler beim Erstellen der language.yml: " + e.getMessage());
+            } catch (IOException exception) {
+                this.hotPotato.getLogger().warning("Fehler beim Erstellen der language.yml: " + exception.getMessage());
             }
             loadMessages(this.hotPotato.getConfig());
         }

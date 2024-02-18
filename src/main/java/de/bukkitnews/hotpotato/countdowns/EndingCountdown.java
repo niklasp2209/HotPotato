@@ -1,6 +1,7 @@
 package de.bukkitnews.hotpotato.countdowns;
 
 import de.bukkitnews.hotpotato.HotPotato;
+import de.bukkitnews.hotpotato.achievement.Achievement;
 import de.bukkitnews.hotpotato.player.CustomPlayerCache;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
@@ -29,6 +30,7 @@ public class EndingCountdown extends Countdown {
                             String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "chat_won");
 
                             playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, won.getName()));
+                            hotPotato.getAchievementManager().setAchievement(won.getUniqueId().toString(), Achievement.FAIRPLAY);
 
                             playerEach.getInventory().clear();
                         });

@@ -90,6 +90,9 @@ public class PlayerConnectionListener implements Listener {
         if (this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
             // CHECKING IF THERE ARE STILL ENOUGH PLAYERS TO FORCE GAME START
             handleQuitInLobby(player);
+        }else if(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof IngameState){
+            IngameState ingameState = (IngameState) this.hotPotato.getGameStateManager().getCurrentGameState();
+            ingameState.checkRemainingPlayers();
         }
 
         this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().remove(player);

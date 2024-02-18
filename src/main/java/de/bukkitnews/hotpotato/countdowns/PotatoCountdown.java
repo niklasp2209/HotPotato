@@ -140,4 +140,8 @@ public class PotatoCountdown extends Countdown {
     public void setPotato(Player potato) {
         this.potato = potato;
     }
+
+    public EndingCountdown getEndingCountdown() {
+        return this.endingCountdown;
+    }
 }

@@ -1,6 +1,7 @@
 package de.bukkitnews.hotpotato.commands;
 
 import de.bukkitnews.hotpotato.HotPotato;
+import de.bukkitnews.hotpotato.achievement.Achievement;
 import de.bukkitnews.hotpotato.game.LobbyState;
 import de.bukkitnews.hotpotato.player.CustomPlayerCache;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;

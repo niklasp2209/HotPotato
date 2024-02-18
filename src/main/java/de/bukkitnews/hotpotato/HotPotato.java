@@ -1,9 +1,7 @@
 package de.bukkitnews.hotpotato;
 
-import de.bukkitnews.hotpotato.commands.BuildCommand;
-import de.bukkitnews.hotpotato.commands.LanguageCommand;
-import de.bukkitnews.hotpotato.commands.SetupCommand;
-import de.bukkitnews.hotpotato.commands.StartCommand;
+import de.bukkitnews.hotpotato.achievement.AchievementManager;
+import de.bukkitnews.hotpotato.commands.*;
 import de.bukkitnews.hotpotato.countdowns.PotatoCountdown;
 import de.bukkitnews.hotpotato.game.GameListener;
 import de.bukkitnews.hotpotato.game.GameState;
@@ -20,6 +18,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import de.bukkitnews.hotpotato.player.CustomPlayerManager;
 import de.bukkitnews.hotpotato.player.PlayerConnectionListener;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +34,7 @@ public class HotPotato extends JavaPlugin {
     private BuildCommand buildCommand;
     private PotatoCountdown potatoCountdown;
     private GameListener gameListener;
+    private AchievementManager achievementManager;
 
     @Override
     public void onEnable() {
@@ -45,6 +45,7 @@ public class HotPotato extends JavaPlugin {
         this.buildCommand = new BuildCommand(this);
         this.potatoCountdown = new PotatoCountdown(this);
         this.gameListener = new GameListener(this);
+        this.achievementManager = new AchievementManager(this);
         this.languageModule.createDefaultConfig();
 
         this.gameStateManager.setGameState(GameState.LOBBY_STATE);
@@ -76,6 +77,7 @@ public class HotPotato extends JavaPlugin {
         this.getCommand("setup").setExecutor(new SetupCommand(this));
         this.getCommand("start").setExecutor(new StartCommand(this));
         this.getCommand("language").setExecutor(new LanguageCommand(this));
+        this.getCommand("achievement").setExecutor(new AchievementCommand(this));
         this.getCommand("build").setExecutor(this.buildCommand);
     }
 
@@ -129,5 +131,9 @@ public class HotPotato extends JavaPlugin {
 
     public GameListener getGameListener() {
         return this.gameListener;
+    }
+
+    public AchievementManager getAchievementManager() {
+        return achievementManager;
     }
 }

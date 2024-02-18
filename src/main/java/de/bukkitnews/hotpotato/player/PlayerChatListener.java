@@ -1,6 +1,8 @@
 package de.bukkitnews.hotpotato.player;
 
 import de.bukkitnews.hotpotato.HotPotato;
+import de.bukkitnews.hotpotato.achievement.Achievement;
+import de.bukkitnews.hotpotato.game.EndingState;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -28,7 +30,7 @@ public class PlayerChatListener implements Listener {
         if(helpTopic == null) {
             CustomPlayerCache customPlayerCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
             String playerMessage = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "chat_no");
-            player.sendMessage(PotatoConstants.PREFIX+playerMessage, message);
+            player.sendMessage(String.format(PotatoConstants.PREFIX+playerMessage, message));
             event.setCancelled(true);
         }
     }
@@ -42,6 +44,11 @@ public class PlayerChatListener implements Listener {
             for(Player current : Bukkit.getOnlinePlayers())
                 current.sendMessage("§a%1$s §8» §7%2$s");
             return;
+        }
+
+        if(hotPotato.getGameStateManager().getCurrentGameState() instanceof EndingState){
+            if(event.getMessage().equalsIgnoreCase("GG"))
+                hotPotato.getAchievementManager().setAchievement(player.getUniqueId().toString(), Achievement.FAIRPLAY);
         }
 
         event.setFormat("§a%1$s §8» §7%2$s");

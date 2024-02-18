@@ -13,3 +13,6 @@ commands:
     aliases: [sprache]
   build:
     description: Build-Command
+  achievement:
+    description: Achievement-Command
+    aliases: [erfolge]

@@ -57,6 +57,12 @@ public class IngameState extends GameState {
         }
     }
 
+    public void checkRemainingPlayers(){
+        if(PotatoConstants.playerList.size() > 1)return;
+        hotPotato.getPotatoCountdown().stop();
+        hotPotato.getPotatoCountdown().getEndingCountdown().start();
+    }
+
     public void updateScoreboard(Player player) {
         CustomPlayerCache customPlayerCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
 
