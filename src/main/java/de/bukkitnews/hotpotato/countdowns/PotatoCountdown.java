@@ -49,6 +49,7 @@ public class PotatoCountdown extends Countdown {
                                 current.teleport(configurationUtil.loadLocation());
                                 current.playSound(current.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
                                 current.showPlayer(current);
+                                current.setGameMode(GameMode.SURVIVAL);
                             }
                             endingCountdown.start();
                             stop();
