@@ -12,8 +12,8 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class VotingListener implements Listener {
 
-    private HotPotato hotPotato;
-    private Voting voting;
+    private final HotPotato hotPotato;
+    private final Voting voting;
 
     public VotingListener(HotPotato hotPotato){
         this.hotPotato = hotPotato;
@@ -26,7 +26,7 @@ public class VotingListener implements Listener {
         if(event.getHand() == EquipmentSlot.OFF_HAND)return;
         if(event.getItem() == null)return;
         if(event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(PotatoConstants.INVENTORY_VOTING))
-            event.getPlayer().openInventory(voting.getInventory());
+            event.getPlayer().openInventory(this.voting.getInventory());
     }
 
     @EventHandler
@@ -35,9 +35,9 @@ public class VotingListener implements Listener {
         if(!(event.getView().getTitle().equalsIgnoreCase(PotatoConstants.INVENTORY_VOTING)))return;
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
-        for(int i = 0; i < voting.getVotingInventoryOrder().length; i++){
-            if(voting.getVotingInventoryOrder()[i] == event.getSlot()){
-                voting.vote(player, i);
+        for(int i = 0; i < this.voting.getVotingInventoryOrder().length; i++){
+            if(this.voting.getVotingInventoryOrder()[i] == event.getSlot()){
+                this.voting.vote(player, i);
                 return;
             }
         }

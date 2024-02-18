@@ -6,7 +6,6 @@ import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.block.data.type.Fire;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -17,16 +16,18 @@ public class PotatoCountdown extends Countdown {
 
     private int seconds = 20;
     private Player potato;
-    private HotPotato hotPotato;
+    private final HotPotato hotPotato;
+    private final EndingCountdown endingCountdown;
 
     public PotatoCountdown(HotPotato hotPotato){
         this.hotPotato = hotPotato;
+        this.endingCountdown = new EndingCountdown(hotPotato);
     }
 
 
     @Override
     public void start() {
-        taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(hotPotato, new Runnable() {
+        this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.hotPotato, new Runnable() {
             @Override
             public void run() {
                 switch (seconds){
@@ -45,7 +46,9 @@ public class PotatoCountdown extends Countdown {
                             for(Player current : Bukkit.getOnlinePlayers()){
                                 current.teleport(configurationUtil.loadLocation());
                                 current.playSound(current.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
+
                             }
+                            endingCountdown.start();
                             stop();
                         }
                         potato = null;
@@ -71,6 +74,14 @@ public class PotatoCountdown extends Countdown {
 
     @Override
     public void stop() {
-        Bukkit.getScheduler().cancelTask(taskID);
+        Bukkit.getScheduler().cancelTask(this.taskID);
+    }
+
+    public Player getPotato() {
+        return this.potato;
+    }
+
+    public void setPotato(Player potato) {
+        this.potato = potato;
     }
 }

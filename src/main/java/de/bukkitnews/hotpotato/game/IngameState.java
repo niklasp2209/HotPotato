@@ -12,33 +12,33 @@ import java.util.List;
 
 public class IngameState extends GameState {
 
-    private HotPotato hotPotato;
+    private final HotPotato hotPotato;
     private Map map;
     private List<Player> players;
-    private StartingCountdown startingCountdown;
+    private final StartingCountdown startingCountdown;
 
     public IngameState(HotPotato hotPotato){
         this.hotPotato = hotPotato;
-        startingCountdown = new StartingCountdown(hotPotato);
+        this.startingCountdown = new StartingCountdown(hotPotato);
     }
 
     @Override
     public void start() {
         Collections.shuffle(PotatoConstants.playerList);
-        players = PotatoConstants.playerList;
+        this.players = PotatoConstants.playerList;
 
-        map = hotPotato.getVoting().getWinnerMap();
-        map.load();
+        this.map = this.hotPotato.getVoting().getWinnerMap();
+        this.map.load();
 
-        for(int i = 0; i < players.size(); i++){
-            players.get(i).teleport(map.getSpawnLocations()[i]);
-            players.get(i).playSound(players.get(i).getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
+        for(int i = 0; i < this.players.size(); i++){
+            this.players.get(i).teleport(this.map.getSpawnLocations()[i]);
+            this.players.get(i).playSound(this.players.get(i).getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
         }
 
         for(Player current : players){
             current.getInventory().clear();
         }
-        startingCountdown.start();
+        this.startingCountdown.start();
     }
 
     @Override

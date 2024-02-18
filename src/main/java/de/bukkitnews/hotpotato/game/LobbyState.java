@@ -4,15 +4,15 @@ import de.bukkitnews.hotpotato.countdowns.LobbyCountdown;
 
 public class LobbyState extends GameState {
 
-    private LobbyCountdown lobbyCountdown;
+    private final LobbyCountdown lobbyCountdown;
 
     public LobbyState(GameStateManager gameStateManager){
-        lobbyCountdown = new LobbyCountdown(gameStateManager);
+        this.lobbyCountdown = new LobbyCountdown(gameStateManager);
     }
 
     @Override
     public void start() {
-        lobbyCountdown.startIdle();
+        this.lobbyCountdown.startIdle();
     }
 
     @Override
@@ -21,6 +21,6 @@ public class LobbyState extends GameState {
     }
 
     public LobbyCountdown getLobbyCountdown() {
-        return lobbyCountdown;
+        return this.lobbyCountdown;
     }
 }

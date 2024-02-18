@@ -21,11 +21,11 @@ public class LobbyCountdown extends Countdown {
     private int seconds;
     private boolean isIdling;
     private boolean isRunning;
-    private GameStateManager gameStateManager;
+    private final GameStateManager gameStateManager;
 
     public LobbyCountdown(GameStateManager gameStateManager){
         this.gameStateManager = gameStateManager;
-        seconds = PotatoConstants.LOBBY_COUNTDOWN;
+        this.seconds = PotatoConstants.LOBBY_COUNTDOWN;
     }
 
     @Override
@@ -33,8 +33,8 @@ public class LobbyCountdown extends Countdown {
         /*
         STARTING LOBBY COUNTDOWN TO START THE GAME; ENOUGH PLAYERS ARE ONLINE
          */
-        isRunning = true;
-        taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameStateManager.getHotPotato(), new Runnable() {
+        this.isRunning = true;
+        this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.gameStateManager.getHotPotato(), new Runnable() {
             @Override
             public void run() {
                 switch (seconds){
@@ -93,10 +93,10 @@ public class LobbyCountdown extends Countdown {
 
     @Override
     public void stop() {
-        if(isRunning){
-            Bukkit.getScheduler().cancelTask(taskID);
-            isRunning = false;
-            seconds = PotatoConstants.LOBBY_COUNTDOWN;
+        if(this.isRunning){
+            Bukkit.getScheduler().cancelTask(this.taskID);
+            this.isRunning = false;
+            this.seconds = PotatoConstants.LOBBY_COUNTDOWN;
         }
     }
 
@@ -104,8 +104,8 @@ public class LobbyCountdown extends Countdown {
         /*
         STARTING IDLE IF NOT ENOUGH PLAYERS ONLINE TO START
          */
-        isIdling = true;
-        idleID = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameStateManager.getHotPotato(), new Runnable() {
+        this.isIdling = true;
+        this.idleID = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.gameStateManager.getHotPotato(), new Runnable() {
             @Override
             public void run() {
                 int amount = PotatoConstants.MIN_PLAYERS-PotatoConstants.playerList.size();
@@ -120,9 +120,9 @@ public class LobbyCountdown extends Countdown {
     }
 
     public void stopIdle(){
-        if(isIdling){
-            Bukkit.getScheduler().cancelTask(idleID);
-            isIdling = false;
+        if(this.isIdling){
+            Bukkit.getScheduler().cancelTask(this.idleID);
+            this.isIdling = false;
         }
     }
 
@@ -131,10 +131,10 @@ public class LobbyCountdown extends Countdown {
     }
 
     public int getSeconds() {
-        return seconds;
+        return this.seconds;
     }
 
     public boolean isRunning() {
-        return isRunning;
+        return this.isRunning;
     }
 }

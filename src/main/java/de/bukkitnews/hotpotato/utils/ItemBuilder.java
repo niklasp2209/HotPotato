@@ -8,26 +8,26 @@ import java.util.Arrays;
 
 public class ItemBuilder {
 
-    private ItemStack itemStack;
-    private ItemMeta itemMeta;
+    private final ItemStack itemStack;
+    private final ItemMeta itemMeta;
 
     public ItemBuilder(Material material){
-        itemStack = new ItemStack(material);
-        itemMeta = itemStack.getItemMeta();
+        this.itemStack = new ItemStack(material);
+        this.itemMeta = this.itemStack.getItemMeta();
     }
 
     public ItemBuilder setDisplayname(String name){
-        itemMeta.setDisplayName(name);
+        this.itemMeta.setDisplayName(name);
         return this;
     }
 
     public ItemBuilder setLore(String... lore){
-        itemMeta.setLore(Arrays.asList(lore));
+        this.itemMeta.setLore(Arrays.asList(lore));
         return this;
     }
 
     public ItemStack build(){
-        itemStack.setItemMeta(itemMeta);
-        return itemStack;
+        this.itemStack.setItemMeta(this.itemMeta);
+        return this.itemStack;
     }
 }

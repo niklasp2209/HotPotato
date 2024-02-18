@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public class EndingCountdown extends Countdown {
 
-    private HotPotato hotPotato;
+    private final HotPotato hotPotato;
     private int seconds = 16;
 
     public EndingCountdown(HotPotato hotPotato){
@@ -17,7 +17,7 @@ public class EndingCountdown extends Countdown {
 
     @Override
     public void start() {
-        taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(hotPotato, new Runnable() {
+        this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.hotPotato, new Runnable() {
             @Override
             public void run() {
 
@@ -64,6 +64,6 @@ public class EndingCountdown extends Countdown {
 
     @Override
     public void stop() {
-        Bukkit.getScheduler().cancelTask(taskID);
+        Bukkit.getScheduler().cancelTask(this.taskID);
     }
 }

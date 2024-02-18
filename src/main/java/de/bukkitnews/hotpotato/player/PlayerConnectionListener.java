@@ -21,12 +21,12 @@ import java.util.concurrent.TimeUnit;
 
 public class PlayerConnectionListener implements Listener {
 
-    private HotPotato hotPotato;
-    private ItemStack voteItem;
+    private final HotPotato hotPotato;
+    private final ItemStack voteItem;
 
     public PlayerConnectionListener(HotPotato hotPotato){
         this.hotPotato = hotPotato;
-        voteItem = new ItemBuilder(Material.PAPER).setDisplayname(PotatoConstants.INVENTORY_VOTING).build();
+        this.voteItem = new ItemBuilder(Material.PAPER).setDisplayname(PotatoConstants.INVENTORY_VOTING).build();
     }
 
     @EventHandler
@@ -35,64 +35,49 @@ public class PlayerConnectionListener implements Listener {
         event.setJoinMessage(null);
 
         CustomPlayerCache customPlayerCache = new CustomPlayerCache(false, 0, 0, "de");
-        hotPotato.getCustomPlayerManager().getPlayerCacheMap().put(player, customPlayerCache);
+        this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().put(player, customPlayerCache);
 
-        System.out.println(player.getLocale());
-
-        /*
-        THREADED FUNCTION TO PULL STATS FROM SQL
-         */
+        // THREADED FUNCTION TO PULL STATS FROM SQL
         Executors.newCachedThreadPool().execute(() -> {
             try{
                 TimeUnit.MILLISECONDS.sleep(500L);
-                /*
-                LOADING STATS FROM SQL IN CACHE
-                 */
+                // LOADING STATS FROM SQL IN CACHE
             }catch (InterruptedException exception){
                 exception.printStackTrace();
             }
         });
 
-        if(hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
-            /*
-            LOGIC FOR PLAYER JOINING SERVER WHEN GAME ISNT STARTET (LOBBYSTATE)
-             */
-            PotatoConstants.playerList.add(player);
-            player.getInventory().clear();
-            player.getInventory().setItem(4, voteItem);
-            /*
-            GETTING PLAYERS LANGUAGE
-             */
-            Bukkit.getOnlinePlayers().forEach(playerEach -> {
-                CustomPlayerCache customPlayerEachCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
-                String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "join_message");
-
-                player.sendMessage(String.format(PotatoConstants.PREFIX+ message +
-                        " §7["+PotatoConstants.playerList.size()+"/"+PotatoConstants.MAX_PLAYERS+"]", player.getName()));
-            });
-
-            /*
-            CHECKING IF LOBBY-SPAWN WAS SETUP
-             */
-            ConfigurationUtil configurationUtil = new ConfigurationUtil(hotPotato, "Lobby");
-            if(configurationUtil.loadLocation() != null)
-                player.teleport(configurationUtil.loadLocation());
-            else
-                Bukkit.getConsoleSender().sendMessage(PotatoConstants.PREFIX+" §4Der Lobby Spawn wurde nicht gesetzt.");
-
-            /*
-            CHECKING IF THERE ARE ENOUGH PLAYERS TO START LOBBYCOUNTDOWN
-             */
-            LobbyState lobbyState = (LobbyState) hotPotato.getGameStateManager().getCurrentGameState();
-            LobbyCountdown lobbyCountdown = lobbyState.getLobbyCountdown();
-            if(PotatoConstants.playerList.size() >= PotatoConstants.MIN_PLAYERS){
-                if(!lobbyCountdown.isRunning()){
-                    lobbyCountdown.stopIdle();
-                    lobbyCountdown.start();
-                }
-            }
+        if(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
+            // LOGIC FOR PLAYER JOINING SERVER WHEN GAME ISNT STARTET (LOBBYSTATE)
+            handleJoinInLobby(player);
         }
+    }
 
+    private void handleJoinInLobby(Player player) {
+        PotatoConstants.playerList.add(player);
+        player.getInventory().clear();
+        player.getInventory().setItem(4, this.voteItem);
+
+        Bukkit.getOnlinePlayers().forEach(playerEach -> {
+            CustomPlayerCache customPlayerEachCache = this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
+            String message = this.hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "join_message");
+
+            playerEach.sendMessage(String.format(PotatoConstants.PREFIX + message +
+                    " §7[" + PotatoConstants.playerList.size() + "/" + PotatoConstants.MAX_PLAYERS + "]", player.getName()));
+        });
+
+        ConfigurationUtil configurationUtil = new ConfigurationUtil(this.hotPotato, "Lobby");
+        if (configurationUtil.loadLocation() != null)
+            player.teleport(configurationUtil.loadLocation());
+        else
+            Bukkit.getConsoleSender().sendMessage(PotatoConstants.PREFIX + " §4Der Lobby Spawn wurde nicht gesetzt.");
+
+        LobbyState lobbyState = (LobbyState) this.hotPotato.getGameStateManager().getCurrentGameState();
+        LobbyCountdown lobbyCountdown = lobbyState.getLobbyCountdown();
+        if (PotatoConstants.playerList.size() >= PotatoConstants.MIN_PLAYERS && !lobbyCountdown.isRunning()) {
+            lobbyCountdown.stopIdle();
+            lobbyCountdown.start();
+        }
     }
 
     @EventHandler
@@ -103,37 +88,36 @@ public class PlayerConnectionListener implements Listener {
         if(PotatoConstants.playerList.contains(player))
             PotatoConstants.playerList.remove(player);
 
-        if(hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
-
-            Bukkit.getOnlinePlayers().forEach(playerEach -> {
-                CustomPlayerCache customPlayerEachCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
-                String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "quit_message");
-
-                player.sendMessage(String.format(PotatoConstants.PREFIX+ message +
-                        " §7["+PotatoConstants.playerList.size()+"/"+PotatoConstants.MAX_PLAYERS+"]", player.getName()));
-            });
-
-            /*
-            CHECKING IF THERE ARE STILL ENOUGH PLAYERS TO FORCE GAME START
-             */
-            LobbyState lobbyState = (LobbyState) hotPotato.getGameStateManager().getCurrentGameState();
-            LobbyCountdown lobbyCountdown = lobbyState.getLobbyCountdown();
-            if(PotatoConstants.playerList.size() < PotatoConstants.MIN_PLAYERS){
-                if(lobbyCountdown.isRunning()){
-                    lobbyCountdown.stop();
-                    lobbyCountdown.startIdle();
-                }
-            }
-            //REMOVE PLAYER VOTE BECAUSE HE LEFT
-            Voting voting = hotPotato.getVoting();
-            if(voting.getPlayerVotes().containsKey(player.getName())){
-                voting.getVotingMaps()[voting.getPlayerVotes().get(player.getName())].removeVote();
-                voting.getPlayerVotes().remove(player.getName());
-                voting.initInventory();
-            }
+        if(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
+            // CHECKING IF THERE ARE STILL ENOUGH PLAYERS TO FORCE GAME START
+            handleQuitInLobby(player);
         }
 
-        if(hotPotato.getCustomPlayerManager().getPlayerCacheMap().containsKey(player))
-            hotPotato.getCustomPlayerManager().getPlayerCacheMap().remove(player);
+        if(this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().containsKey(player))
+            this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().remove(player);
+    }
+
+    private void handleQuitInLobby(Player player) {
+        Bukkit.getOnlinePlayers().forEach(playerEach -> {
+            CustomPlayerCache customPlayerEachCache = this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
+            String message = this.hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "quit_message");
+
+            playerEach.sendMessage(String.format(PotatoConstants.PREFIX + message +
+                    " §7[" + PotatoConstants.playerList.size() + "/" + PotatoConstants.MAX_PLAYERS + "]", player.getName()));
+        });
+
+        LobbyState lobbyState = (LobbyState) this.hotPotato.getGameStateManager().getCurrentGameState();
+        LobbyCountdown lobbyCountdown = lobbyState.getLobbyCountdown();
+        if (PotatoConstants.playerList.size() < PotatoConstants.MIN_PLAYERS && lobbyCountdown.isRunning()) {
+            lobbyCountdown.stop();
+            lobbyCountdown.startIdle();
+        }
+
+        Voting voting = this.hotPotato.getVoting();
+        if (voting.getPlayerVotes().containsKey(player.getName())) {
+            voting.getVotingMaps()[voting.getPlayerVotes().get(player.getName())].removeVote();
+            voting.getPlayerVotes().remove(player.getName());
+            voting.initInventory();
+        }
     }
 }

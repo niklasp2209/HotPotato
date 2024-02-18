@@ -7,10 +7,9 @@ import org.bukkit.Bukkit;
 
 public class StartingCountdown extends Countdown{
 
-    private HotPotato hotPotato;
+    private final HotPotato hotPotato;
     private int seconds = 10;
-    public static boolean ready = false;
-    private PotatoCountdown potatoCountdown;
+    private final PotatoCountdown potatoCountdown;
 
     public StartingCountdown(HotPotato hotPotato){
         this.hotPotato = hotPotato;
@@ -19,7 +18,7 @@ public class StartingCountdown extends Countdown{
 
     @Override
     public void start() {
-        taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(hotPotato, new Runnable() {
+        this.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.hotPotato, new Runnable() {
             @Override
             public void run() {
                 switch (seconds){
@@ -42,7 +41,6 @@ public class StartingCountdown extends Countdown{
                         break;
 
                     case 0:
-                        ready = true;
                         potatoCountdown.start();
                         stop();
                         break;
@@ -57,6 +55,10 @@ public class StartingCountdown extends Countdown{
 
     @Override
     public void stop() {
-        Bukkit.getScheduler().cancelTask(taskID);
+        Bukkit.getScheduler().cancelTask(this.taskID);
+    }
+
+    public PotatoCountdown getPotatoCountdown() {
+        return this.potatoCountdown;
     }
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class CustomPlayerManager {
 
-    private Map<Player, CustomPlayerCache> playerCacheMap = new HashMap<>();
+    private final Map<Player, CustomPlayerCache> playerCacheMap = new HashMap<>();
 
     public CustomPlayerManager(){}
 

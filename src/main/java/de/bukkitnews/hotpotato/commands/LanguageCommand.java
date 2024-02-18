@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 public class LanguageCommand implements CommandExecutor {
 
-    private HotPotato hotPotato;
+    private final HotPotato hotPotato;
 
     public LanguageCommand(HotPotato hotPotato){
         this.hotPotato = hotPotato;
@@ -19,32 +19,30 @@ public class LanguageCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
-        if(commandSender instanceof Player){
-            Player player = (Player) commandSender;
-            CustomPlayerCache customPlayerCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
+        if (!(commandSender instanceof Player)) return false;
 
-            if(args.length == 1){
-                if(args[0].equalsIgnoreCase("DE")){
-                    customPlayerCache.setLocale("de");
-                    String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_language_changed");
-                    player.sendMessage(PotatoConstants.PREFIX+message);
-                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+        Player player = (Player) commandSender;
+        CustomPlayerCache customPlayerCache = this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
 
-                }else if(args[0].equalsIgnoreCase("EN")){
-                    customPlayerCache.setLocale("en");
-                    String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_language_changed");
-                    player.sendMessage(PotatoConstants.PREFIX+message);
-                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
-
-                }else{
-                    String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_language_usage");
-                    player.sendMessage(PotatoConstants.PREFIX+message);
-                }
-            }else{
-                String message = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_language_usage");
-                player.sendMessage(PotatoConstants.PREFIX+message);
+        if (args.length == 1) {
+            if (args[0].equalsIgnoreCase("DE")) {
+                customPlayerCache.setLocale("de");
+            } else if (args[0].equalsIgnoreCase("EN")) {
+                customPlayerCache.setLocale("en");
+            } else {
+                String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_language_usage");
+                player.sendMessage(PotatoConstants.PREFIX + message);
+                return true;
             }
+
+            String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_language_changed");
+            player.sendMessage(PotatoConstants.PREFIX + message);
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+            return true;
         }
-        return false;
+
+        String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_language_usage");
+        player.sendMessage(PotatoConstants.PREFIX + message);
+        return true;
     }
 }

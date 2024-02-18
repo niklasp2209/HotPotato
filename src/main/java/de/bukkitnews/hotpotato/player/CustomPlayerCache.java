@@ -7,9 +7,9 @@ CUSTOMPLAYERCACHE IS STORING PLAYER INGAME DATA FROM SQL E.G STATS, ...
  */
 public class CustomPlayerCache {
 
-    private boolean isIngame;
-    private int playedGames;
-    private int wonGames;
+    private final boolean isIngame;
+    private final int playedGames;
+    private final int wonGames;
     private String locale;
 
     public CustomPlayerCache(boolean isIngame, int playedGames, int wonGames, String locale){

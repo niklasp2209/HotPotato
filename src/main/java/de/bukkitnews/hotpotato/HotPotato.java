@@ -3,6 +3,7 @@ package de.bukkitnews.hotpotato;
 import de.bukkitnews.hotpotato.commands.LanguageCommand;
 import de.bukkitnews.hotpotato.commands.SetupCommand;
 import de.bukkitnews.hotpotato.commands.StartCommand;
+import de.bukkitnews.hotpotato.game.GameListener;
 import de.bukkitnews.hotpotato.game.GameState;
 import de.bukkitnews.hotpotato.game.GameStateManager;
 import de.bukkitnews.hotpotato.language.LanguageModule;
@@ -10,7 +11,9 @@ import de.bukkitnews.hotpotato.maps.Map;
 import de.bukkitnews.hotpotato.maps.Voting;
 import de.bukkitnews.hotpotato.maps.VotingListener;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
+import de.bukkitnews.hotpotato.utils.WorldListener;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import de.bukkitnews.hotpotato.player.CustomPlayerManager;
 import de.bukkitnews.hotpotato.player.PlayerConnectionListener;
@@ -25,18 +28,21 @@ public class HotPotato extends JavaPlugin {
     private Voting voting;
     private List<Map> mapList;
     private LanguageModule languageModule;
+    private WorldListener worldListener;
 
     @Override
     public void onEnable(){
         this.gameStateManager = new GameStateManager(this);
         this.customPlayerManager = new CustomPlayerManager();
         this.languageModule = new LanguageModule(this, getConfig());
+        this.worldListener = new WorldListener(this);
         languageModule.createDefaultConfig();
 
         gameStateManager.setGameState(GameState.LOBBY_STATE);
 
         registerListener();
         registerCommands();
+        worldListener.initWorlds();
     }
 
     @Override
@@ -49,6 +55,8 @@ public class HotPotato extends JavaPlugin {
 
         this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
         this.getServer().getPluginManager().registerEvents(new VotingListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new GameListener(this), this);
+        this.getServer().getPluginManager().registerEvents(worldListener, this);
     }
 
     private void registerCommands(){

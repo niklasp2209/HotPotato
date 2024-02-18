@@ -11,10 +11,10 @@ CREATING MAP OBJECT FOR MAP VOTING AND MAP PLAYING
  */
 public class Map {
 
-    private HotPotato hotPotato;
-    private String name;
+    private final HotPotato hotPotato;
+    private final String name;
     private String builder;
-    private Location[] spawnLocations = new Location[PotatoConstants.MAX_PLAYERS];
+    private final Location[] spawnLocations = new Location[PotatoConstants.MAX_PLAYERS];
     private Location spectatorLocation;
     private int votes;
 
@@ -23,35 +23,35 @@ public class Map {
         this.name = name.toUpperCase();
 
         if(exists())
-            builder = hotPotato.getConfig().getString("Maps."+name+".Builder");
+            this.builder = hotPotato.getConfig().getString("Maps."+name+".Builder");
     }
 
     public void create(String builder){
         this.builder = builder;
-        hotPotato.getConfig().set("Maps."+name+".Builder", builder);
-        hotPotato.saveConfig();
+        this.hotPotato.getConfig().set("Maps."+this.name+".Builder", builder);
+        this.hotPotato.saveConfig();
     }
 
     public void load(){
-        spectatorLocation = new ConfigurationUtil(hotPotato, "Maps."+name+".Spectator").loadLocation();
-        for(int i = 0; i < spawnLocations.length; i++)
-            spawnLocations[i] = new ConfigurationUtil(hotPotato, "Maps."+name+"."+(i+1)).loadLocation();
+        this.spectatorLocation = new ConfigurationUtil(this.hotPotato, "Maps."+this.name+".Spectator").loadLocation();
+        for(int i = 0; i < this.spawnLocations.length; i++)
+            this.spawnLocations[i] = new ConfigurationUtil(this.hotPotato, "Maps."+this.name+"."+(i+1)).loadLocation();
     }
 
     public void setSpawnLocation(int locationID, Location location){
         /*
         SETTING PLAYER SPAWN LOCATIONS FOR SPECIFIC MAP
          */
-        spawnLocations[locationID-1] = location;
-        new ConfigurationUtil(hotPotato, location, "Maps."+name+"."+locationID).saveLocation();
+        this.spawnLocations[locationID-1] = location;
+        new ConfigurationUtil(this.hotPotato, location, "Maps."+this.name+"."+locationID).saveLocation();
     }
 
     public void setSpectatorLocation(Location location){
         /*
         SETTING PLAYER SPECTATOR LOCATION FOR SPECIFIC MAP
          */
-        spectatorLocation = location;
-        new ConfigurationUtil(hotPotato, location, "Maps."+name+".Spectator").saveLocation();
+        this.spectatorLocation = location;
+        new ConfigurationUtil(this.hotPotato, location, "Maps."+this.name+".Spectator").saveLocation();
     }
 
     public boolean playable(){
@@ -59,7 +59,7 @@ public class Map {
         METHOD SCANNING IF MAP IS READY TO PLAY. FIRSTLY SCANNING IF SPECTATOR AND BUILDER IS VALID
         BECAUSE CHECKING THE SPAWNLOCATIONS FIRST WILL BE BAD FOR SERVER RUNTIME
          */
-        ConfigurationSection configurationSection = hotPotato.getConfig().getConfigurationSection("Maps."+name);
+        ConfigurationSection configurationSection = this.hotPotato.getConfig().getConfigurationSection("Maps."+this.name);
         if(!configurationSection.contains("Spectator"))return false;
         if(!configurationSection.contains("Builder"))return false;
         for(int i = 1; i < PotatoConstants.MAX_PLAYERS+1; i++){
@@ -69,34 +69,34 @@ public class Map {
     }
 
     public void addVote(){
-        votes++;
+        this.votes++;
     }
 
     public void removeVote(){
-        votes--;
+        this.votes--;
     }
 
     public boolean exists(){
-        return(hotPotato.getConfig().getString("Maps."+name) != null);
+        return(this.hotPotato.getConfig().getString("Maps."+this.name) != null);
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getBuilder() {
-        return builder;
+        return this.builder;
     }
 
     public Location getSpectatorLocation() {
-        return spectatorLocation;
+        return this.spectatorLocation;
     }
 
     public Location[] getSpawnLocations() {
-        return spawnLocations;
+        return this.spawnLocations;
     }
 
     public int getVotes() {
-        return votes;
+        return this.votes;
     }
 }
