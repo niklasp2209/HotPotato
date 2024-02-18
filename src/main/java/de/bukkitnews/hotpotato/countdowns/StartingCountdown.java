@@ -10,11 +10,9 @@ public class StartingCountdown extends Countdown{
 
     private final HotPotato hotPotato;
     private int seconds = 10;
-    private final PotatoCountdown potatoCountdown;
 
     public StartingCountdown(HotPotato hotPotato){
         this.hotPotato = hotPotato;
-        this.potatoCountdown = new PotatoCountdown(hotPotato);
     }
 
     @Override
@@ -44,7 +42,7 @@ public class StartingCountdown extends Countdown{
                         break;
 
                     case 0:
-                        potatoCountdown.start();
+                        hotPotato.getPotatoCountdown().start();
                         stop();
                         break;
 

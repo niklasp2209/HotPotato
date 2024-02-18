@@ -90,7 +90,7 @@ public class PotatoCountdown extends Countdown {
 
     private void selectPotato(){
         Collections.shuffle(PotatoConstants.playerList);
-        potato = PotatoConstants.playerList.get(0);
+        this.potato = PotatoConstants.playerList.get(0);
     }
 
     private void setArmor(){

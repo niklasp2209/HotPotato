@@ -33,6 +33,7 @@ public class HotPotato extends JavaPlugin {
     private LanguageModule languageModule;
     private WorldListener worldListener;
     private BuildCommand buildCommand;
+    private PotatoCountdown potatoCountdown;
 
     @Override
     public void onEnable(){
@@ -41,6 +42,7 @@ public class HotPotato extends JavaPlugin {
         this.languageModule = new LanguageModule(this, getConfig());
         this.worldListener = new WorldListener(this);
         this.buildCommand = new BuildCommand(this);
+        this.potatoCountdown = new PotatoCountdown(this);
         this.languageModule.createDefaultConfig();
 
         this.gameStateManager.setGameState(GameState.LOBBY_STATE);
@@ -61,7 +63,7 @@ public class HotPotato extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
         this.getServer().getPluginManager().registerEvents(new VotingListener(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerChatListener(this), this);
-        this.getServer().getPluginManager().registerEvents(new GameListener(new PotatoCountdown(this)), this);
+        this.getServer().getPluginManager().registerEvents(new GameListener(this), this);
         this.getServer().getPluginManager().registerEvents(worldListener, this);
     }
 
@@ -117,5 +119,9 @@ public class HotPotato extends JavaPlugin {
 
     public BuildCommand getBuildCommand() {
         return this.buildCommand;
+    }
+
+    public PotatoCountdown getPotatoCountdown() {
+        return this.potatoCountdown;
     }
 }
