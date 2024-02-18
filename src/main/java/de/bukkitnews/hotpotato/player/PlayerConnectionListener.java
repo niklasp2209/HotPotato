@@ -16,38 +16,25 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 public class PlayerConnectionListener implements Listener {
 
     private final HotPotato hotPotato;
     private final ItemStack voteItem;
 
-    public PlayerConnectionListener(HotPotato hotPotato){
+    public PlayerConnectionListener(HotPotato hotPotato) {
         this.hotPotato = hotPotato;
         this.voteItem = new ItemBuilder(Material.PAPER).setDisplayname(PotatoConstants.INVENTORY_VOTING).build();
     }
 
     @EventHandler
-    public void handleJoin(PlayerJoinEvent event){
+    public void handleJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         event.setJoinMessage(null);
 
         CustomPlayerCache customPlayerCache = new CustomPlayerCache(false, 0, 0, "de");
         this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().put(player, customPlayerCache);
 
-        // THREADED FUNCTION TO PULL STATS FROM SQL
-        Executors.newCachedThreadPool().execute(() -> {
-            try{
-                TimeUnit.MILLISECONDS.sleep(500L);
-                // LOADING STATS FROM SQL IN CACHE
-            }catch (InterruptedException exception){
-                exception.printStackTrace();
-            }
-        });
-
-        if(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
+        if (this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
             // LOGIC FOR PLAYER JOINING SERVER WHEN GAME ISNT STARTET (LOBBYSTATE)
             handleJoinInLobby(player);
         }
@@ -81,19 +68,19 @@ public class PlayerConnectionListener implements Listener {
     }
 
     @EventHandler
-    public void handleQuit(PlayerQuitEvent event){
-        Player player  = event.getPlayer();
+    public void handleQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
         event.setQuitMessage(null);
 
-        if(PotatoConstants.playerList.contains(player))
+        if (PotatoConstants.playerList.contains(player))
             PotatoConstants.playerList.remove(player);
 
-        if(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
+        if (this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
             // CHECKING IF THERE ARE STILL ENOUGH PLAYERS TO FORCE GAME START
             handleQuitInLobby(player);
         }
 
-        if(this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().containsKey(player))
+        if (this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().containsKey(player))
             this.hotPotato.getCustomPlayerManager().getPlayerCacheMap().remove(player);
     }
 
@@ -117,7 +104,7 @@ public class PlayerConnectionListener implements Listener {
         if (voting.getPlayerVotes().containsKey(player.getName())) {
             voting.getVotingMaps()[voting.getPlayerVotes().get(player.getName())].removeVote();
             voting.getPlayerVotes().remove(player.getName());
-            voting.initInventory();
+            voting.initInventory(player);
         }
     }
 }

@@ -29,7 +29,6 @@ public class Voting {
         this.playerVotes = new HashMap<>();
 
         chooseRandomMaps();
-        initInventory();
     }
 
     /*
@@ -46,14 +45,25 @@ public class Voting {
     /*
     INITIALIZE VOTING INVENTORY
      */
-    public void initInventory(){
-        this.inventory = Bukkit.createInventory(null, 9, PotatoConstants.INVENTORY_VOTING);
-        for(int i = 0; i < this.votingMaps.length; i++){
+    public void initInventory(Player player) {
+        CustomPlayerCache customPlayerCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(player);
+        String inventoryTitle = hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "voting_inventory_title");
+
+        this.inventory = Bukkit.createInventory(null, 9, inventoryTitle);
+
+        for (int i = 0; i < this.votingMaps.length; i++) {
             Map currentMap = this.votingMaps[i];
             this.inventory.setItem(this.votingInventoryOrder[i], new ItemBuilder(
-                    Material.PAPER).setDisplayname("§a"+currentMap.getName()).setLore(
-                            "§r", "§7Votes: §e"+currentMap.getVotes(), "§7Von: §e"+currentMap.getBuilder()).build());
+                    Material.PAPER).setDisplayname("§a" + currentMap.getName()).setLore(
+                    "§r", "§7Votes: §e" + currentMap.getVotes(), "§7Von: §e" + currentMap.getBuilder()).build());
         }
+    }
+
+    /*
+    METHOD FOR UPDATING VOTING INVENTORY BASED ON PLAYER'S LANGUAGE
+    */
+    public void updateInventory(Player player) {
+        player.openInventory(this.inventory);
     }
 
     /*
@@ -77,7 +87,16 @@ public class Voting {
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "voting_voted");
             player.sendMessage(String.format(PotatoConstants.PREFIX+message, this.votingMaps[votingMap].getName()));
             this.playerVotes.put(player.getName(), votingMap);
-            initInventory();
+            initInventory(player);
+            updateInventory(player);
+
+            for(Player current : Bukkit.getOnlinePlayers()){
+                if(current.getOpenInventory().getTitle().equals(this.hotPotato.getLanguageModule().getMessage("de", "voting_inventory_title")) ||
+                current.getOpenInventory().getTitle().equals(this.hotPotato.getLanguageModule().getMessage("en", "voting_inventory_title"))){
+                    initInventory(current);
+                    updateInventory(current);
+                }
+            }
         }else{
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "voting_already");
             player.sendMessage(PotatoConstants.PREFIX+message);

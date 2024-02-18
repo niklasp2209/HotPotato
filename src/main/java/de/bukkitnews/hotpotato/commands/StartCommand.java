@@ -36,7 +36,7 @@ public class StartCommand implements CommandExecutor {
         }
 
         //CHECKING IF WRONG ARGS OR NOT IN LOBBYSTATE
-        if(args.length != 1 || this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState){
+        if(args.length != 1 || !(this.hotPotato.getGameStateManager().getCurrentGameState() instanceof LobbyState)){
             String message = this.hotPotato.getLanguageModule().getMessage(customPlayerCache.getLocale(), "command_start_usage");
             player.sendMessage(PotatoConstants.PREFIX+message);
             return true;

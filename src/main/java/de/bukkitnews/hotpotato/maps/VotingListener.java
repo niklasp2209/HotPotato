@@ -17,22 +17,25 @@ public class VotingListener implements Listener {
 
     public VotingListener(HotPotato hotPotato){
         this.hotPotato = hotPotato;
-        voting = hotPotato.getVoting();
+        this.voting = hotPotato.getVoting();
     }
 
     @EventHandler
     public void handleVote(PlayerInteractEvent event){
-        if(!(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR))return;
+        if(!(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK))return;
         if(event.getHand() == EquipmentSlot.OFF_HAND)return;
         if(event.getItem() == null)return;
-        if(event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(PotatoConstants.INVENTORY_VOTING))
+        if(event.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(PotatoConstants.INVENTORY_VOTING)) {
+            this.voting.initInventory(event.getPlayer());
             event.getPlayer().openInventory(this.voting.getInventory());
+        }
     }
 
     @EventHandler
     public void handleVoting(InventoryClickEvent event){
         if(!(event.getWhoClicked() instanceof Player))return;
-        if(!(event.getView().getTitle().equalsIgnoreCase(PotatoConstants.INVENTORY_VOTING)))return;
+        if(!(event.getView().getTitle().equals(this.hotPotato.getLanguageModule().getMessage("de", "voting_inventory_title")) ||
+                event.getView().getTitle().equals(this.hotPotato.getLanguageModule().getMessage("en", "voting_inventory_title"))))return;
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
         for(int i = 0; i < this.voting.getVotingInventoryOrder().length; i++){
