@@ -4,6 +4,7 @@ import de.bukkitnews.hotpotato.HotPotato;
 import de.bukkitnews.hotpotato.player.CustomPlayerCache;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 
 public class StartingCountdown extends Countdown{
 
@@ -28,6 +29,7 @@ public class StartingCountdown extends Countdown{
                             String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_starting_broadcast");
 
                             playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, seconds));
+                            playerEach.playSound(playerEach.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 1F, 1F);
                         });
                         break;
 
@@ -37,6 +39,7 @@ public class StartingCountdown extends Countdown{
                             String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_starting_broadcast1");
 
                             playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, seconds));
+                            playerEach.playSound(playerEach.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 1F, 1F);
                         });
                         break;
 

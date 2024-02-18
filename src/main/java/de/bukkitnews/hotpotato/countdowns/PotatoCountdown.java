@@ -2,13 +2,14 @@ package de.bukkitnews.hotpotato.countdowns;
 
 import de.bukkitnews.hotpotato.HotPotato;
 import de.bukkitnews.hotpotato.utils.ConfigurationUtil;
+import de.bukkitnews.hotpotato.utils.ItemBuilder;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
-import org.bukkit.Bukkit;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.Collections;
 
@@ -50,6 +51,7 @@ public class PotatoCountdown extends Countdown {
                             endingCountdown.start();
                             stop();
                         }
+
                         potato = null;
                         seconds = 23;
                         break;
@@ -65,6 +67,15 @@ public class PotatoCountdown extends Countdown {
                         current.playSound(potato.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, 1F, 1F);
                     }
                 }
+
+                for(Player current : Bukkit.getOnlinePlayers()){
+                    if(seconds <= 20){
+                        current.setLevel(seconds);
+                    }else
+                        current.setLevel(0);
+                }
+
+                setArmor();
                 seconds--;
             }
         },0, 20);
@@ -73,6 +84,40 @@ public class PotatoCountdown extends Countdown {
     private void selectPotato(){
         Collections.shuffle(PotatoConstants.playerList);
         potato = PotatoConstants.playerList.get(0);
+    }
+
+    private void setArmor(){
+        ItemStack leatherHelmet = new ItemStack(Material.LEATHER_HELMET);
+        LeatherArmorMeta leatherHelmetItemMeta = (LeatherArmorMeta) leatherHelmet.getItemMeta();
+        leatherHelmetItemMeta.setColor(Color.RED);
+        leatherHelmet.setItemMeta(leatherHelmetItemMeta);
+
+        ItemStack leatherChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+        LeatherArmorMeta leatherChestplateItemMeta = (LeatherArmorMeta) leatherChestplate.getItemMeta();
+        leatherChestplateItemMeta.setColor(Color.RED);
+        leatherChestplate.setItemMeta(leatherChestplateItemMeta);
+
+        ItemStack leatherLeggins = new ItemStack(Material.LEATHER_LEGGINGS);
+        LeatherArmorMeta leatherLegginsItemMeta = (LeatherArmorMeta) leatherLeggins.getItemMeta();
+        leatherLegginsItemMeta.setColor(Color.RED);
+        leatherLeggins.setItemMeta(leatherLegginsItemMeta);
+
+        ItemStack leatherBoots = new ItemStack(Material.LEATHER_BOOTS);
+        LeatherArmorMeta leatherBootsItemMeta = (LeatherArmorMeta) leatherBoots.getItemMeta();
+        leatherBootsItemMeta.setColor(Color.RED);
+        leatherBoots.setItemMeta(leatherBootsItemMeta);
+
+
+        potato.getInventory().setHelmet(leatherHelmet);
+        potato.getInventory().setChestplate(leatherChestplate);
+        potato.getInventory().setLeggings(leatherLeggins);
+        potato.getInventory().setBoots(leatherBoots);
+
+        Bukkit.getOnlinePlayers().forEach(current -> {
+            if(current != potato){
+                current.getInventory().clear();
+            }
+        });
     }
 
     @Override

@@ -7,6 +7,7 @@ import de.bukkitnews.hotpotato.maps.Voting;
 import de.bukkitnews.hotpotato.player.CustomPlayerCache;
 import de.bukkitnews.hotpotato.utils.PotatoConstants;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -44,6 +45,7 @@ public class LobbyCountdown extends Countdown {
                             String message = gameStateManager.getHotPotato().getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_lobby_broadcast");
 
                             playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, seconds));
+                            playerEach.playSound(playerEach.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 1F, 1F);
                         });
 
 
@@ -76,6 +78,7 @@ public class LobbyCountdown extends Countdown {
                             String message = gameStateManager.getHotPotato().getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "countdown_lobby_broadcast1");
 
                             playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, seconds));
+                            playerEach.playSound(playerEach.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 1F, 1F);
                         });
                         break;
 

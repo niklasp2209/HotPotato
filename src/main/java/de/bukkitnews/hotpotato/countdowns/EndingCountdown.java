@@ -23,9 +23,15 @@ public class EndingCountdown extends Countdown {
 
                 switch (seconds){
                     case 16:
-                        /*
-                        PLAYER WON
-                         */
+                        Player won = PotatoConstants.playerList.get(0);
+                        Bukkit.getOnlinePlayers().forEach(playerEach -> {
+                            CustomPlayerCache customPlayerEachCache = hotPotato.getCustomPlayerManager().getPlayerCacheMap().get(playerEach);
+                            String message = hotPotato.getLanguageModule().getMessage(customPlayerEachCache.getLocale(), "chat_won");
+
+                            playerEach.sendMessage(String.format(PotatoConstants.PREFIX+message, won.getName()));
+
+                            playerEach.getInventory().clear();
+                        });
                         break;
 
                     case 15: case 10: case 5: case 4: case 3: case 2:
