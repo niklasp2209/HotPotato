@@ -1,5 +1,6 @@
 package de.bukkitnews.hotpotato;
 
+import de.bukkitnews.hotpotato.commands.BuildCommand;
 import de.bukkitnews.hotpotato.commands.LanguageCommand;
 import de.bukkitnews.hotpotato.commands.SetupCommand;
 import de.bukkitnews.hotpotato.commands.StartCommand;
@@ -31,6 +32,7 @@ public class HotPotato extends JavaPlugin {
     private List<Map> mapList;
     private LanguageModule languageModule;
     private WorldListener worldListener;
+    private BuildCommand buildCommand;
 
     @Override
     public void onEnable(){
@@ -38,6 +40,7 @@ public class HotPotato extends JavaPlugin {
         this.customPlayerManager = new CustomPlayerManager();
         this.languageModule = new LanguageModule(this, getConfig());
         this.worldListener = new WorldListener(this);
+        this.buildCommand = new BuildCommand(this);
         languageModule.createDefaultConfig();
 
         gameStateManager.setGameState(GameState.LOBBY_STATE);
@@ -69,6 +72,7 @@ public class HotPotato extends JavaPlugin {
         this.getCommand("setup").setExecutor(new SetupCommand(this));
         this.getCommand("start").setExecutor(new StartCommand(this));
         this.getCommand("language").setExecutor(new LanguageCommand(this));
+        this.getCommand("build").setExecutor(buildCommand);
     }
 
     private void initVoting(){
@@ -109,5 +113,9 @@ public class HotPotato extends JavaPlugin {
 
     public LanguageModule getLanguageModule() {
         return languageModule;
+    }
+
+    public BuildCommand getBuildCommand() {
+        return buildCommand;
     }
 }

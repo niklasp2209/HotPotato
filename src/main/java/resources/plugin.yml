@@ -11,3 +11,5 @@ commands:
   language:
     description: Sprache-Command
     aliases: [sprache]
+  build:
+    description: Build-Command

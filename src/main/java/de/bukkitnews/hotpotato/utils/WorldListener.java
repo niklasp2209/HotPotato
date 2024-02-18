@@ -24,11 +24,13 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void handleBreak(BlockBreakEvent event){
+        if(this.hotPotato.getBuildCommand().getBuildList().contains(event.getPlayer()))return;
         event.setCancelled(true);
     }
 
     @EventHandler
     public void handlePlace(BlockPlaceEvent event){
+        if(this.hotPotato.getBuildCommand().getBuildList().contains(event.getPlayer()))return;
         event.setCancelled(true);
     }
 
@@ -40,6 +42,7 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void handleCrop(PlayerInteractEvent event){
+        if(this.hotPotato.getBuildCommand().getBuildList().contains(event.getPlayer()))return;
         if(event.getAction().equals(Action.PHYSICAL) && event.getClickedBlock().getType().equals(Material.FARMLAND)){
             event.setCancelled(true);
         }
@@ -48,6 +51,7 @@ public class WorldListener implements Listener {
     @EventHandler
     public void handleDamage(EntityDamageEvent event){
         if(event.getEntity() instanceof Player){
+            if(this.hotPotato.getBuildCommand().getBuildList().contains((Player) event.getEntity()))return;
             event.setCancelled(true);
         }
     }

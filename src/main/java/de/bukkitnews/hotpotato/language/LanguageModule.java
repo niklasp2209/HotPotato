@@ -88,6 +88,9 @@ public class LanguageModule {
             deMessages.put("chat_no", "§cCommand §e%s §cwurde nicht gefunden.");
             deMessages.put("chat_won", "§e%s §7hat die Runde §agewonnen§7!");
             deMessages.put("scoreboard", "§7Verbleibende Spieler:");
+            deMessages.put("command_build_usage", "§cBenutze /build");
+            deMessages.put("command_build_deactivated", "§7Du hast den §eBaumodus §cdeaktiviert§7.");
+            deMessages.put("command_build_activated", "§7Du hast den §eBaumodus §aaktiviert§7.");
 
 
 
@@ -121,6 +124,9 @@ public class LanguageModule {
             enMessages.put("chat_no", "§cCommand §e%s §cnot found.");
             enMessages.put("chat_won", "§e%s §7has §awon§7!");
             enMessages.put("scoreboard", "§7Remaining players:");
+            enMessages.put("command_build_usage", "§cUsage /build");
+            enMessages.put("command_build_deactivated", "§7You have §cdeactivated §7the §eBuildmode§7.");
+            enMessages.put("command_build_activated", "§7You have §aactivated §7the §eBuildmode§7.");
 
 
 
